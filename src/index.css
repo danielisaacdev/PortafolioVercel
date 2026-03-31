@@ -116,12 +116,12 @@ body {
   box-shadow: rgba(30, 58, 138, 0.45) 10px 10px 30px 0;
 }
 
-.card:nth-child(1) { background: linear-gradient(135deg, #1d4ed8, #3b82f6); }
-.card:nth-child(2) { background: linear-gradient(135deg, #0ea5e9, #14b8a6); }
-.card:nth-child(3) { background: linear-gradient(135deg, #6366f1, #8b5cf6); }
-.card:nth-child(4) { background: linear-gradient(135deg, #2563eb, #3b82f6); }
-.card:nth-child(5) { background: linear-gradient(135deg, #0284c7, #0ea5e9); }
-.card:nth-child(6) { background: linear-gradient(135deg, #4338ca, #6366f1); }
+.card:nth-child(1) { background: linear-gradient(135deg, #075985, #0ea5e9); }
+.card:nth-child(2) { background: linear-gradient(135deg, #0f766e, #14b8a6); }
+.card:nth-child(3) { background: linear-gradient(135deg, #0c4a6e, #2dd4bf); }
+.card:nth-child(4) { background: linear-gradient(135deg, #1d4ed8, #60a5fa); }
+.card:nth-child(5) { background: linear-gradient(135deg, #1d4ed8, #22d3ee); }
+.card:nth-child(6) { background: linear-gradient(135deg, #0f766e, #2dd4bf); }
 
 @keyframes scrolling {
   0% { transform: translateX(0); }
