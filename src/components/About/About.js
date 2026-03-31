@@ -2,10 +2,15 @@ import React from "react";
 import { personalInfo } from "../../data";
 import Github from "./Github";
 import { AiFillGithub } from "react-icons/ai";
-import { FaPython, FaDatabase, FaGitAlt } from "react-icons/fa";
+import { FaPython, FaDatabase, FaGitAlt, FaLinkedinIn } from "react-icons/fa";
 import { SiPowerbi, SiMicrosoftsqlserver, SiOracle } from "react-icons/si";
 
 function About() {
+  const aboutActions = [
+    { label: "GitHub", href: personalInfo.socials.github, Icon: AiFillGithub },
+    { label: "LinkedIn", href: personalInfo.socials.linkedin, Icon: FaLinkedinIn },
+  ];
+
   return (
     <main className="pt-32 pb-24 px-6 max-w-7xl mx-auto min-h-screen">
       <div className="aurora-bg"></div>
@@ -28,6 +33,22 @@ function About() {
               Además de programar, me apasiona aprender nuevas tecnologías y mantenerme al tanto de las tendencias en IA y Machine Learning.
             </p>
           </div>
+          <div className="flex flex-wrap gap-3 pt-2">
+            {aboutActions.map(({ label, href, Icon }) => (
+              <a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-white/10 bg-surface-container text-on-surface-variant hover:text-white hover:border-primary/40 hover:bg-surface-container-high transition-colors no-underline"
+                aria-label={label}
+                title={label}
+              >
+                <Icon size={18} />
+                <span className="text-xs font-bold uppercase tracking-widest">{label}</span>
+              </a>
+            ))}
+          </div>
         </div>
         <div className="lg:col-span-5 hidden lg:block bg-surface-container rounded-2xl p-8 border border-white/5 shadow-2xl">
           <div className="flex flex-col items-center gap-6">
@@ -37,8 +58,12 @@ function About() {
                </div>
             </div>
             <div className="text-center">
-              <h3 className="text-xl font-bold text-white tracking-tight">Daniel Isaac</h3>
-              <p className="text-primary-container text-xs font-bold uppercase tracking-widest mt-1">SPS Data Analyst</p>
+              <h3 className="text-xl font-bold text-white tracking-tight">
+                {personalInfo.name.split(" ").slice(0, 2).join(" ")}
+              </h3>
+              <p className="text-primary-container text-xs font-bold uppercase tracking-widest mt-1">
+                {personalInfo.role}
+              </p>
             </div>
           </div>
         </div>
@@ -61,7 +86,7 @@ function About() {
       </section>
 
       {/* GitHub Calendar */}
-      <section className="bg-surface-container/40 rounded-2xl p-8 border border-white/5">
+      <section className="bg-surface-container/40 rounded-2xl p-8 border border-white/5 overflow-x-auto">
         <Github />
       </section>
     </main>

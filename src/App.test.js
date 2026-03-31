@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import App from './App';
 
-test('renders learn react link', () => {
+test('renders main navigation links', () => {
   render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+  expect(screen.getByRole('link', { name: /inicio/i })).toBeInTheDocument();
+  expect(screen.getAllByRole('link', { name: /sobre m[ií]/i }).length).toBeGreaterThan(0);
 });

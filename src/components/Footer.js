@@ -14,7 +14,13 @@ function Footer() {
           © {year} {personalInfo.name.split(' ')[0]} {personalInfo.name.split(' ')[1]}. Built with precision.
         </div>
         <div>
-          <a className="font-['Inter'] text-xs font-light tracking-wide text-[#93ccff] hover:text-white transition-colors no-underline" href="#top">Volver Arriba</a>
+          <button
+            type="button"
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            className="font-['Inter'] text-xs font-light tracking-wide text-[#93ccff] hover:text-white transition-colors bg-transparent border-0 p-0"
+          >
+            Volver Arriba
+          </button>
         </div>
       </div>
     </footer>
