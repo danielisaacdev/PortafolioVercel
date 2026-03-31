@@ -20,35 +20,30 @@ function Pre({ load }) {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 1, ease: "easeOut" }}
-              className="text-4xl md:text-6xl font-black tracking-[0.2em] text-white flex gap-1"
+              className="text-3xl md:text-5xl font-black tracking-tight text-white flex flex-wrap justify-center gap-x-3"
             >
-              {"DANIEL".split("").map((char, i) => (
-                <motion.span
-                  key={i}
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.1 + i * 0.05, duration: 0.5 }}
-                >
-                  {char}
-                </motion.span>
+              {"Daniel Isaac.dev".split(" ").map((word, wordIndex) => (
+                <div key={wordIndex} className="flex">
+                   {word.split("").map((char, charIndex) => (
+                    <motion.span
+                      key={charIndex}
+                      initial={{ y: 20, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      transition={{ delay: 0.1 + (wordIndex * 5 + charIndex) * 0.05, duration: 0.5 }}
+                    >
+                      {char}
+                    </motion.span>
+                  ))}
+                </div>
               ))}
             </motion.div>
             
             <motion.div 
                initial={{ width: 0 }}
                animate={{ width: "100%" }}
-               transition={{ delay: 0.5, duration: 1, ease: "easeInOut" }}
-               className="h-[2px] bg-gradient-to-r from-transparent via-primary to-transparent mt-4 opacity-70"
+               transition={{ delay: 0.8, duration: 1, ease: "easeInOut" }}
+               className="h-[2px] bg-gradient-to-r from-transparent via-primary to-transparent mt-6 opacity-70"
             />
-            
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 0.5 }}
-              transition={{ delay: 1, duration: 0.8 }}
-              className="mt-6 text-xs uppercase tracking-[0.4em] font-light text-white"
-            >
-              Cargando Portafolio de Datos
-            </motion.p>
           </div>
           
           <div className="absolute inset-0 pointer-events-none opacity-20">
