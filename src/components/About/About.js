@@ -1,15 +1,10 @@
 import React from "react";
 import { personalInfo } from "../../data";
 import Github from "./Github";
-import { AiFillGithub } from "react-icons/ai";
-import { FaPython, FaDatabase, FaGitAlt, FaLinkedinIn } from "react-icons/fa";
+import { FaPython, FaDatabase, FaGitAlt } from "react-icons/fa";
 import { SiPowerbi, SiMicrosoftsqlserver, SiOracle } from "react-icons/si";
 
 function About() {
-  const aboutActions = [
-    { label: "GitHub", href: personalInfo.socials.github, Icon: AiFillGithub },
-    { label: "LinkedIn", href: personalInfo.socials.linkedin, Icon: FaLinkedinIn },
-  ];
 
   return (
     <main className="pt-32 pb-24 px-6 max-w-7xl mx-auto min-h-screen">
@@ -32,22 +27,6 @@ function About() {
             <p>
               Además de programar, me apasiona aprender nuevas tecnologías y mantenerme al tanto de las tendencias en IA y Machine Learning.
             </p>
-          </div>
-          <div className="flex flex-wrap gap-3 pt-2">
-            {aboutActions.map(({ label, href, Icon }) => (
-              <a
-                key={label}
-                href={href}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-white/10 bg-surface-container text-on-surface-variant hover:text-white hover:border-primary/40 hover:bg-surface-container-high transition-colors no-underline"
-                aria-label={label}
-                title={label}
-              >
-                <Icon size={18} />
-                <span className="text-xs font-bold uppercase tracking-widest">{label}</span>
-              </a>
-            ))}
           </div>
         </div>
       </section>

@@ -1,17 +1,11 @@
 import React from "react";
 import Type from "./Type";
 import { personalInfo } from "../../data";
-import { AiFillGithub } from "react-icons/ai";
-import { FaLinkedinIn, FaPython, FaGitAlt, FaWhatsapp } from "react-icons/fa";
+import { FaPython, FaGitAlt } from "react-icons/fa";
 import { SiPowerbi, SiMicrosoftsqlserver } from "react-icons/si";
 import { Link } from "react-router-dom";
 
 function Home() {
-  const quickLinks = [
-    { label: "GitHub", href: personalInfo.socials.github, Icon: AiFillGithub },
-    { label: "LinkedIn", href: personalInfo.socials.linkedin, Icon: FaLinkedinIn },
-    { label: "WhatsApp", href: personalInfo.socials.whatsapp, Icon: FaWhatsapp },
-  ];
 
   return (
     <main className="relative pt-16">
@@ -46,23 +40,6 @@ function Home() {
                 Sobre Mí
               </Link>
 
-              <div className="flex flex-wrap gap-3">
-                {quickLinks.map(({ label, href, Icon }) => (
-                  <a
-                    key={label}
-                    href={href}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-white/10 bg-surface-container text-on-surface-variant hover:text-white hover:border-primary/40 hover:bg-surface-container-high transition-colors no-underline"
-                    aria-label={label}
-                    title={label}
-                  >
-                    <Icon size={18} />
-                    <span className="text-xs font-bold uppercase tracking-widest">{label}</span>
-                  </a>
-                ))}
-              </div>
-              
               <div className="flex flex-wrap items-center gap-6 pt-2">
                 <span className="text-[10px] uppercase tracking-widest font-bold text-on-surface-variant/60">Tecnologías Core</span>
                 <div className="flex gap-4">

@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import Preloader from "./components/Pre";
 import Navbar from "./components/Navbar";
 import { AiFillGithub } from "react-icons/ai";
-import { FaLinkedinIn, FaPython, FaGitAlt, FaWhatsapp, FaDatabase } from "react-icons/fa";
+import { FaLinkedinIn, FaPython, FaGitAlt, FaDatabase } from "react-icons/fa";
 import { SiPowerbi, SiMicrosoftsqlserver, SiOracle } from "react-icons/si";
 import ErrorBoundary from "./components/ErrorBoundary";
 import Type from "./components/Home/Type";
@@ -30,7 +30,10 @@ function App() {
         const response = await fetch('https://api.github.com/users/danielisaacdev/repos?per_page=100&sort=updated');
         if (!response.ok) throw new Error('GitHub API error');
         const repos = await response.json();
-        const filtered = repos.filter(r => !r.name.toLowerCase().includes('portafolio'));
+        const filtered = repos.filter(r => {
+          const name = r.name.toLowerCase();
+          return !name.includes('portafolio') && name !== 'danielisaacdev';
+        });
         setGithubProjects(filtered);
       } catch (error) {
         console.error('Error loading GitHub repos:', error);
@@ -136,27 +139,6 @@ function App() {
               >
                 Sobre Mí
               </a>
-
-              <div className="flex flex-wrap gap-3">
-                {[
-                  { label: "GitHub", href: "https://github.com/danielisaacdev", Icon: AiFillGithub },
-                  { label: "LinkedIn", href: "https://www.linkedin.com/in/danielisaacdev/", Icon: FaLinkedinIn },
-                  { label: "WhatsApp", href: "https://wa.me/56992149141", Icon: FaWhatsapp },
-                ].map(({ label, href, Icon }) => (
-                  <a
-                    key={label}
-                    href={href}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-white/10 bg-surface-container text-on-surface-variant hover:text-white hover:border-primary/40 hover:bg-surface-container-high transition-colors no-underline"
-                    aria-label={label}
-                    title={label}
-                  >
-                    <Icon size={18} />
-                    <span className="text-xs font-bold uppercase tracking-widest">{label}</span>
-                  </a>
-                ))}
-              </div>
 
               <div className="flex flex-wrap items-center gap-6 pt-2">
                 <span className="text-[10px] uppercase tracking-widest font-bold text-on-surface-variant/60">Tecnologías Core</span>
