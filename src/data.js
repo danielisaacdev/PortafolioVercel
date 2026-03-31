@@ -19,15 +19,33 @@ export const personalInfo = {
   projects: [
     {
       name: "Dashboard de Ventas – Power BI",
-      description: "Análisis de dataset de ventas para identificar tendencias comerciales y creación de dashboards interactivos para visualización de KPIs.",
+      description: "Visualización estratégica de KPIs comerciales mediante dashboards interactivos, facilitando la toma de decisiones basada en datos sintéticos y reales.",
       image: "https://via.placeholder.com/600x400/1b1f2c/93ccff?text=Power+BI+Dashboard",
-      tags: ["Power BI", "Data Analysis", "KPIs"]
+      tags: ["Power BI", "DAX", "Business Intelligence"]
     },
     {
       name: "Análisis de Datos con Python",
-      description: "Limpieza y preparación de datos utilizando Python. Análisis exploratorio para identificar patrones y métricas relevantes.",
+      description: "Entorno de análisis exploratorio (EDA) y limpieza de datos masivos utilizando Pandas y NumPy para extraer insights accionables.",
       image: "https://via.placeholder.com/600x400/1b1f2c/93ccff?text=Python+Data+Analysis",
-      tags: ["Python", "Pandas", "EDA"]
+      tags: ["Python", "Pandas", "Scikit-Learn"]
+    },
+    {
+      name: "OnStore – E-commerce Prototipo",
+      description: "Desarrollo de una tienda en línea moderna utilizando Astro.js, enfocada en la optimización de carga y arquitectura de componentes.",
+      image: "https://via.placeholder.com/600x400/1b1f2c/93ccff?text=Astro+OnStore",
+      tags: ["Astro", "Tailwind CSS", "UX/UI"]
+    },
+    {
+      name: "FastAPI CRM Backend",
+      description: "API robusta para gestión de relaciones con clientes, implementada con FastAPI para asegurar baja latencia y alta concurrencia.",
+      image: "https://via.placeholder.com/600x400/1b1f2c/93ccff?text=FastAPI+CRM",
+      tags: ["Python", "FastAPI", "REST API"]
+    },
+    {
+      name: "Web Scraping Pipeline",
+      description: "Automatización de recolección de datos web a gran escala, procesando información desestructurada para bases de datos relacionales.",
+      image: "https://via.placeholder.com/600x400/1b1f2c/93ccff?text=Web+Scraping",
+      tags: ["Python", "Selenium", "Data Mining"]
     }
   ],
   education: [
