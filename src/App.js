@@ -13,6 +13,8 @@ import "./index.css";
 
 function App() {
   const [load, updateLoad] = useState(true);
+  const [githubProjects, setGithubProjects] = useState([]);
+  const [loadingProjects, setLoadingProjects] = useState(true);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -20,6 +22,24 @@ function App() {
     }, 2000);
 
     return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    const fetchRepos = async () => {
+      try {
+        const response = await fetch('https://api.github.com/users/danielisaacdev/repos?per_page=100&sort=updated');
+        if (!response.ok) throw new Error('GitHub API error');
+        const repos = await response.json();
+        const filtered = repos.filter(r => !r.name.toLowerCase().includes('portafolio'));
+        setGithubProjects(filtered);
+      } catch (error) {
+        console.error('Error loading GitHub repos:', error);
+      } finally {
+        setLoadingProjects(false);
+      }
+    };
+
+    fetchRepos();
   }, []);
 
   const sectionVariants = {
@@ -44,6 +64,27 @@ function App() {
       }
     }
   };
+
+  const backupProjects = [
+    {
+      id: 'static-1',
+      name: 'Dashboard de Ventas – Power BI',
+      description: 'Análisis de dataset de ventas para identificar tendencias comerciales y creación de dashboards interactivos para visualización de KPIs.',
+      html_url: '#',
+      language: 'Power BI',
+      stargazers_count: 0
+    },
+    {
+      id: 'static-2',
+      name: 'Análisis de Datos con Python',
+      description: 'Limpieza y preparación de datos utilizando Python. Análisis exploratorio para identificar patrones y métricas relevantes.',
+      html_url: '#',
+      language: 'Python',
+      stargazers_count: 0
+    }
+  ];
+
+  const projectsToDisplay = githubProjects.length > 0 ? githubProjects : backupProjects;
 
   return (
     <ErrorBoundary>
@@ -274,59 +315,42 @@ function App() {
             </motion.div>
 
             <motion.div
-              className="grid md:grid-cols-2 gap-8"
+              className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4"
               variants={containerVariants}
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
             >
-              {[
-                {
-                  name: "Dashboard de Ventas – Power BI",
-                  description: "Análisis de dataset de ventas para identificar tendencias comerciales y creación de dashboards interactivos para visualización de KPIs.",
-                  image: "https://via.placeholder.com/600x400/1b1f2c/93ccff?text=Power+BI+Dashboard",
-                  tags: ["Power BI", "Data Analysis", "KPIs"]
-                },
-                {
-                  name: "Análisis de Datos con Python",
-                  description: "Limpieza y preparación de datos utilizando Python. Análisis exploratorio para identificar patrones y métricas relevantes.",
-                  image: "https://via.placeholder.com/600x400/1b1f2c/93ccff?text=Python+Data+Analysis",
-                  tags: ["Python", "Pandas", "EDA"]
-                }
-              ].map((project, index) => (
-                <motion.div
-                  key={project.name}
-                  className="bg-surface-container rounded-2xl p-8 border border-white/5 hover:border-primary/20 transition-all group"
-                  variants={sectionVariants}
-                  whileHover={{ y: -5 }}
-                >
-                  <div className="space-y-4">
-                    <div className="aspect-video rounded-xl bg-surface-container-high overflow-hidden">
-                      <img
-                        src={project.image}
-                        alt={project.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                      />
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-bold text-white mb-2">{project.name}</h3>
-                      <p className="text-on-surface-variant text-sm leading-relaxed mb-4">
-                        {project.description}
-                      </p>
-                      <div className="flex flex-wrap gap-2">
-                        {project.tags.map(tag => (
-                          <span
-                            key={tag}
-                            className="px-2 py-1 text-xs bg-primary/10 text-primary rounded-full"
-                          >
-                            {tag}
-                          </span>
-                        ))}
+              {loadingProjects ? (
+                <div className="col-span-full text-center text-on-surface-variant">Cargando repositorios de GitHub...</div>
+              ) : (
+                projectsToDisplay
+                  .filter(repo => !repo.name.toLowerCase().includes('portafolio'))
+                  .map((repo) => (
+                    <motion.a
+                      key={repo.id || repo.name}
+                      href={repo.html_url || '#'}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="bg-surface-container rounded-xl p-3 border border-white/10 hover:border-primary/30 transition-all group"
+                      variants={sectionVariants}
+                      whileHover={{ y: -2, scale: 1.01 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      <div className="text-center">
+                        <div className="text-primary text-2xl mb-2">
+                          <span className="material-symbols-outlined">code</span>
+                        </div>
+                        <h3 className="text-sm font-bold text-white truncate">{repo.name}</h3>
+                        <p className="text-[11px] text-on-surface-variant mt-1 h-10 overflow-hidden text-ellipsis">{repo.description || 'Descripción no disponible'}</p>
                       </div>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
+                      <div className="mt-4 flex items-center justify-between text-[10px] text-on-surface-variant">
+                        <span>{repo.language || 'N/A'}</span>
+                        <span>★ {repo.stargazers_count || 0}</span>
+                      </div>
+                    </motion.a>
+                  ))
+              )}
             </motion.div>
           </div>
         </motion.section>
@@ -364,25 +388,6 @@ function App() {
                 ¿Buscas un especialista en análisis de datos y business intelligence?
                 Estoy disponible para nuevos proyectos y colaboraciones.
               </p>
-
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <a
-                  href="mailto:daniel.isaac.dev@gmail.com"
-                  className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-primary text-on-primary rounded-lg font-bold hover:bg-primary-container transition-colors"
-                >
-                  <span className="material-symbols-outlined">email</span>
-                  Enviar Email
-                </a>
-                <a
-                  href="https://wa.me/56992149141"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center justify-center gap-2 px-8 py-4 border border-white/10 bg-surface-container text-on-surface-variant rounded-lg font-bold hover:bg-surface-container-high transition-colors"
-                >
-                  <span className="material-symbols-outlined">phone</span>
-                  WhatsApp
-                </a>
-              </div>
             </motion.div>
 
             <motion.div
@@ -437,10 +442,10 @@ function App() {
                       <span className="material-symbols-outlined text-2xl">{contact.icon}</span>
                     </div>
                     <div>
-                      <div className="text-xs font-bold text-primary uppercase tracking-widest mb-1">
+                      <div className="text-xs font-bold text-primary uppercase tracking-widest mb-1 text-center">
                         {contact.label}
                       </div>
-                      <div className="text-sm text-on-surface-variant group-hover:text-white transition-colors">
+                      <div className="text-sm text-on-surface-variant group-hover:text-white transition-colors text-center break-words">
                         {contact.value}
                       </div>
                     </div>
