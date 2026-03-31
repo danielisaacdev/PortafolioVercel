@@ -86,12 +86,15 @@ body {
   display: flex;
   gap: 20px;
   padding-right: 20px;
+  flex-shrink: 0;
   will-change: transform;
-  animation: scrolling 12s linear infinite;
+  animation: scrolling 25s linear infinite;
 }
 
-.projects-carousel:hover .group {
-  animation-play-state: paused;
+@media (hover: hover) {
+  .projects-carousel:hover .group {
+    animation-play-state: paused;
+  }
 }
 
 .card {
@@ -132,5 +135,5 @@ body {
 
 @keyframes scrolling {
   0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  100% { transform: translateX(-100%); }
 }
