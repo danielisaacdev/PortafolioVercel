@@ -95,22 +95,36 @@ function App() {
 
     const localTarget = matchedProject ? `#project-${slugify(matchedProject.name)}` : repo.html_url || '#';
     const isExternal = !matchedProject;
+    
+    // Prioritize content from data.js
+    const displayDescription = (matchedProject && matchedProject.description) || repo.description || 'Proyectos enfocados en la excelencia técnica y análisis profundo.';
+    const displayTags = (matchedProject && matchedProject.tags) ? matchedProject.tags.slice(0, 3).join(', ') : (repo.language || 'Análisis');
 
     return (
       <a
         key={repo.id || repo.name}
         href={localTarget}
         {...(isExternal ? { target: '_blank', rel: 'noreferrer' } : {})}
-        className="card card-link"
-        style={{ minWidth: '240px' }}
+        className="card card-link group/card"
+        style={{ minWidth: '320px', height: '240px' }}
         role="group"
         aria-label={isExternal ? `Abrir repositorio ${repo.name}` : `Ir al proyecto ${matchedProject.name}`}
       >
-        <h3 className="text-xl font-bold text-white truncate">{repo.name}</h3>
-        <p className="text-sm text-on-surface-variant mt-1 h-20 overflow-hidden text-ellipsis">{repo.description || 'Descripción no disponible'}</p>
-        <div className="mt-3 flex items-center justify-between text-xs text-on-surface-variant">
-          <span>{repo.language || 'N/A'}</span>
-          <span>★ {repo.stargazers_count || 0}</span>
+        <div className="flex flex-col h-full justify-between">
+          <div className="space-y-2">
+            <h3 className="text-xl font-black text-white group-hover/card:text-primary transition-colors line-clamp-1">{repo.name}</h3>
+            <p className="text-sm text-on-surface-variant font-light leading-relaxed line-clamp-3">
+              {displayDescription}
+            </p>
+          </div>
+          <div className="mt-4 pt-4 border-t border-white/5 flex flex-col gap-2">
+            <div className="flex items-center justify-between">
+               <span className="text-[10px] font-bold text-primary uppercase tracking-widest">{displayTags}</span>
+               <div className="flex gap-3 text-on-surface-variant/40 text-[10px]">
+                  <span className="flex items-center gap-1"><span className="material-symbols-outlined text-[12px]">star</span>{repo.stargazers_count || 0}</span>
+               </div>
+            </div>
+          </div>
         </div>
       </a>
     );
@@ -339,19 +353,7 @@ function App() {
               )}
             </div>
 
-            <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6">
-              {personalInfo.projects.map((project) => (
-                <article
-                  key={project.name}
-                  id={`project-${slugify(project.name)}`}
-                  className="bg-surface-container rounded-2xl p-6 border border-white/5"
-                >
-                  <h3 className="text-2xl font-bold text-white mb-2">{project.name}</h3>
-                  <p className="text-on-surface-variant leading-relaxed">{project.description}</p>
-                  <div className="mt-4 text-xs text-primary">Tecnologías: {project.tags ? project.tags.join(', ') : project.language || 'N/A'}</div>
-                </article>
-              ))}
-            </div>
+            {/* Static grid removed as per instructions */}
           </div>
         </motion.section>
 
