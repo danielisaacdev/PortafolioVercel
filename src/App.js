@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import Preloader from "./components/Pre";
 import Navbar from "./components/Navbar";
 import { AiFillGithub } from "react-icons/ai";
@@ -13,8 +13,6 @@ import "./index.css";
 
 function App() {
   const [load, updateLoad] = useState(true);
-  const { scrollYProgress } = useScroll();
-  const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0.8]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
