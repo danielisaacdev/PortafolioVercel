@@ -1,40 +1,64 @@
 import React, { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
 const navItems = [
-  { name: "Inicio", path: "/" },
-  { name: "Sobre Mí", path: "/about" },
-  { name: "Proyectos", path: "/project" },
-  { name: "Contacto", path: "/contact" },
+  { name: "Inicio", href: "#home" },
+  { name: "Sobre Mí", href: "#about" },
+  { name: "Proyectos", href: "#projects" },
+  { name: "Contacto", href: "#contact" },
 ];
 
 function Navbar() {
-  const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("#home");
 
   useEffect(() => {
+    const handleScroll = () => {
+      const sections = navItems.map(item => item.href.substring(1));
+      const scrollPosition = window.scrollY + 100;
+
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const section = document.getElementById(sections[i]);
+        if (section && section.offsetTop <= scrollPosition) {
+          setActiveSection(`#${sections[i]}`);
+          break;
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Check initial position
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToSection = (href) => {
+    const sectionId = href.substring(1);
+    const section = document.getElementById(sectionId);
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth' });
+    }
     setIsMenuOpen(false);
-  }, [location.pathname]);
+  };
 
   return (
     <nav className="fixed top-0 w-full z-50 border-b border-white/5 bg-slate-900/60 dark:bg-[#1b1f2c]/60 backdrop-blur-xl shadow-2xl shadow-blue-500/5">
       <div className="flex justify-between items-center max-w-7xl mx-auto px-6 h-16">
         <div className="text-xl font-black tracking-tighter text-white dark:text-[#f4fff5]">
-          <Link to="/" className="no-underline hover:text-primary transition-colors">
+          <a href="#home" className="no-underline hover:text-primary transition-colors">
             Daniel Isaac<span className="text-primary">.dev</span>
-          </Link>
+          </a>
         </div>
         <div className="hidden md:flex items-center gap-8 font-['Inter'] tracking-tight font-medium text-sm">
           {navItems.map((item) => {
-            const isActive = location.pathname === item.path;
+            const isActive = activeSection === item.href;
             return (
-              <Link
-                key={item.path}
-                className={`relative px-1 py-1 no-underline transition-colors ${
+              <button
+                key={item.href}
+                className={`relative px-1 py-1 no-underline transition-colors cursor-pointer ${
                   isActive ? "text-primary font-bold" : "text-[#bec7d3] hover:text-white"
                 }`}
-                to={item.path}
+                onClick={() => scrollToSection(item.href)}
               >
                 {item.name}
                 {isActive && (
@@ -49,7 +73,7 @@ function Navbar() {
                     }}
                   />
                 )}
-              </Link>
+              </button>
             );
           })}
         </div>
@@ -76,18 +100,17 @@ function Navbar() {
           >
             <div className="max-w-7xl mx-auto px-6 py-4 flex flex-col gap-4 font-['Inter']">
               {navItems.map((item) => {
-                const isActive = location.pathname === item.path;
+                const isActive = activeSection === item.href;
                 return (
-                  <Link
-                    key={item.path}
-                    to={item.path}
-                    onClick={() => setIsMenuOpen(false)}
-                    className={`no-underline text-sm font-semibold tracking-tight transition-colors ${
+                  <button
+                    key={item.href}
+                    onClick={() => scrollToSection(item.href)}
+                    className={`text-left no-underline text-sm font-semibold tracking-tight transition-colors cursor-pointer ${
                       isActive ? "text-primary" : "text-[#bec7d3] hover:text-white"
                     }`}
                   >
                     {item.name}
-                  </Link>
+                  </button>
                 );
               })}
             </div>
