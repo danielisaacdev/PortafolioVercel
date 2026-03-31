@@ -93,17 +93,17 @@ function Home() {
                 </div>
               </Link>
 
-              {/* Card 2: Analytics - Added 'relative' to fix the overlap issue */}
+              {/* Card 2: Analytics */}
               <Link
                 to="/project"
                 aria-label="Ir a proyectos de análisis"
-                className="relative bg-primary/10 rounded-xl p-6 flex flex-col items-center justify-center border border-primary/20 overflow-hidden group hover:-translate-y-1 transition-transform no-underline"
+                className="relative bg-primary/10 rounded-xl p-6 flex flex-col items-center justify-center min-h-[220px] border border-primary/20 overflow-hidden group hover:bg-primary/20 hover:-translate-y-1 transition-all no-underline"
               >
                 <div className="absolute inset-0 flex items-center justify-center opacity-10 group-hover:scale-110 transition-transform duration-700">
                   <span className="material-symbols-outlined text-primary text-9xl">analytics</span>
                 </div>
-                <div className="relative z-10 text-center">
-                  <span className="material-symbols-outlined text-primary text-5xl mb-3 block">auto_awesome</span>
+                <div className="relative z-10 text-center space-y-2">
+                  <span className="material-symbols-outlined text-primary text-4xl block">auto_awesome</span>
                   <div className="text-xs font-black uppercase tracking-widest text-primary/80">Smart Analysis</div>
                 </div>
               </Link>

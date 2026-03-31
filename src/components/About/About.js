@@ -54,7 +54,7 @@ function About() {
         <Link
           to="/resume"
           aria-label="Ir al currículum"
-          className="lg:col-span-5 hidden lg:block bg-surface-container rounded-2xl p-8 border border-white/5 shadow-2xl no-underline hover:-translate-y-1 hover:bg-surface-container-high transition-all"
+          className="lg:col-span-5 hidden lg:block bg-surface-container rounded-2xl p-8 border border-white/5 shadow-2xl hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-1 hover:bg-surface-container-high transition-all no-underline cursor-pointer"
         >
           <div className="flex flex-col items-center gap-6">
             <div className="w-48 h-48 rounded-full bg-gradient-to-br from-primary to-primary-container p-1 shadow-xl shadow-primary/20">
