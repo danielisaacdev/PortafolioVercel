@@ -302,7 +302,7 @@ function App() {
               </motion.h2>
             </motion.div>
 
-            <div className="carousel" aria-label="Carrusel de proyectos">
+            <div className="projects-carousel" aria-label="Carrusel de proyectos">
               {loadingProjects ? (
                 <div className="text-center text-on-surface-variant">Cargando repositorios de GitHub...</div>
               ) : (
