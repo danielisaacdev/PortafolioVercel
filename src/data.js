@@ -1,14 +1,14 @@
 export const personalInfo = {
-  name: "Daniel Isaac Elgueta Fuentes",
-  role: "Estudiante de Ingeniería en Informática",
-  description: "Especializado en análisis de datos, inteligencia de negocios y machine learning. Apasionado por transformar datos en decisiones estratégicas.",
-  location: "Santiago, Chile",
-  email: "daniel.isaac.dev@gmail.com",
-  phone: "+56 9 9214 9141",
+  name: process.env.REACT_APP_NAME,
+  role: process.env.REACT_APP_ROLE,
+  description: process.env.REACT_APP_DESCRIPTION,
+  location: process.env.REACT_APP_LOCATION,
+  email: process.env.REACT_APP_EMAIL,
+  phone: process.env.REACT_APP_PHONE,
   socials: {
-    github: "https://github.com/danielisaacdev",
-    linkedin: "https://www.linkedin.com/in/danielisaacdev/",
-    whatsapp: "https://wa.me/56992149141",
+    github: process.env.REACT_APP_GITHUB,
+    linkedin: process.env.REACT_APP_LINKEDIN,
+    whatsapp: process.env.REACT_APP_WHATSAPP,
   },
   skills: [
     { label: "Análisis de Datos", details: "Python (pandas, numpy), ML Intermedio" },

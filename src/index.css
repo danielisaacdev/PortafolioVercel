@@ -47,11 +47,8 @@ body {
 
 /* Preloader */
 /* Preloader handles its own fade away via Framer Motion */
-#no-scroll {
-  overflow: hidden;
-  height: 100vh;
-}
-
+/* Preloader */
+/* Preloader handles its own fade away via Framer Motion */
 #no-scroll {
   overflow: hidden;
   height: 100vh;
