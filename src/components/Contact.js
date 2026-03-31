@@ -32,7 +32,7 @@ function Contact() {
           </a>
 
           {/* Email Card */}
-          <a href={`mailto:${personalInfo.email}`} className="group p-8 bg-surface-container hover:bg-surface-container-high border border-white/5 rounded-2xl transition-all hover:-translate-y-2 no-underline flex items-center gap-6">
+          <a href={`https://mail.google.com/mail/?view=cm&fs=1&to=${personalInfo.email}`} target="_blank" rel="noreferrer" className="group p-8 bg-surface-container hover:bg-surface-container-high border border-white/5 rounded-2xl transition-all hover:-translate-y-2 no-underline flex items-center gap-6">
              <div className="w-16 h-16 rounded-xl bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
                 <AiOutlineMail size={32} />
              </div>
