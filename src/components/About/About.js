@@ -1,56 +1,79 @@
 import React from "react";
-import { Container, Row, Col } from "react-bootstrap";
-import Particle from "../Particle";
+import { personalInfo } from "../../data";
 import Github from "./Github";
-import Techstack from "./Techstack";
-import Aboutcard from "./AboutCard";
-import laptopImg from "../../Assets/about.png";
-import Toolstack from "./Toolstack";
+import { AiFillGithub } from "react-icons/ai";
+import { FaPython, FaDatabase, FaGitAlt } from "react-icons/fa";
+import { SiPowerbi, SiMicrosoftsqlserver, SiOracle } from "react-icons/si";
 
 function About() {
   return (
-    <>
-      {" "}
-      <Particle />
-      <Container fluid className="about-section">
-        <Container>
-          <Row style={{ justifyContent: "center", padding: "10px" }}>
-            <Col
-              md={7}
-              style={{
-                justifyContent: "center",
-                paddingTop: "30px",
-                paddingBottom: "50px",
-              }}
-            >
-              <h1 style={{ fontSize: "2.1em", paddingBottom: "20px" }}>
-                ¿Quién <strong className="purple">SOY?</strong>
-              </h1>
-              <Aboutcard />
-            </Col>
-            <Col
-              md={5}
-              style={{ paddingTop: "120px", paddingBottom: "50px" }}
-              className="about-img"
-            >
-              <img src={laptopImg} alt="about" className="img-fluid" />
-            </Col>
-          </Row>
-          <h1 className="project-heading">
-            Habilidades <strong className="purple">Profesionales </strong>
+    <main className="pt-32 pb-24 px-6 max-w-7xl mx-auto min-h-screen">
+      <div className="aurora-bg"></div>
+      
+      {/* Bio Section */}
+      <section className="mb-24 text-center md:text-left grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <div className="lg:col-span-7 space-y-8">
+          <p className="font-['Inter'] text-[0.6875rem] uppercase tracking-[0.15em] text-primary font-bold mb-4">Sobre Mí</p>
+          <h1 className="text-4xl md:text-6xl font-black tracking-tighter text-white">
+            ¿Quién <span className="text-gradient">SOY?</span>
           </h1>
+          <div className="space-y-6 text-on-surface-variant text-lg leading-relaxed font-light">
+            <p>
+              Soy Daniel Isaac Elgueta Fuentes, estudiante de Ingeniería en Informática con una fuerte inclinación hacia el mundo de los datos.
+            </p>
+            <p>
+              Mi objetivo principal es utilizar la tecnología para simplificar procesos complejos y extraer información valiosa que guíe la toma de decisiones estratégicas. Me especializo en Business Intelligence, Análisis de Datos y SQL.
+            </p>
+            <p>
+              Además de programar, me apasiona aprender nuevas tecnologías y mantenerme al tanto de las tendencias en IA y Machine Learning.
+            </p>
+          </div>
+        </div>
+        <div className="lg:col-span-5 hidden lg:block bg-surface-container rounded-2xl p-8 border border-white/5 shadow-2xl">
+          <div className="flex flex-col items-center gap-6">
+            <div className="w-48 h-48 rounded-full bg-gradient-to-br from-primary to-primary-container p-1 shadow-xl shadow-primary/20">
+               <div className="w-full h-full bg-[#0f131f] rounded-full flex items-center justify-center">
+                  <span className="material-symbols-outlined text-primary text-8xl">analytics</span>
+               </div>
+            </div>
+            <div className="text-center">
+              <h3 className="text-xl font-bold text-white tracking-tight">Daniel Isaac</h3>
+              <p className="text-primary-container text-xs font-bold uppercase tracking-widest mt-1">SPS Data Analyst</p>
+            </div>
+          </div>
+        </div>
+      </section>
 
-          <Techstack />
+      {/* Skills Grid */}
+      <section className="mb-24">
+        <h2 className="text-3xl font-bold text-white mb-12 flex items-center gap-3">
+          <span className="material-symbols-outlined text-primary">terminal</span>
+          Habilidades Profesionales
+        </h2>
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
+          <SkillIcon Icon={FaPython} label="Python" />
+          <SkillIcon Icon={SiPowerbi} label="Power BI" />
+          <SkillIcon Icon={SiMicrosoftsqlserver} label="SQL Server" />
+          <SkillIcon Icon={SiOracle} label="Oracle SQL" />
+          <SkillIcon Icon={FaGitAlt} label="Git" />
+          <SkillIcon Icon={FaDatabase} label="Data Mining" />
+        </div>
+      </section>
 
-          <h1 className="project-heading">
-            <strong className="purple">Herramientas</strong> que utilizo
-          </h1>
-          <Toolstack />
+      {/* GitHub Calendar */}
+      <section className="bg-surface-container/40 rounded-2xl p-8 border border-white/5">
+        <Github />
+      </section>
+    </main>
+  );
+}
 
-          <Github />
-        </Container>
-      </Container>
-    </>
+function SkillIcon({ Icon, label }) {
+  return (
+    <div className="flex flex-col items-center justify-center gap-4 p-6 bg-surface-container hover:bg-surface-container-high border border-white/5 rounded-2xl transition-all hover:-translate-y-1">
+      <Icon size={48} className="text-primary/80" />
+      <span className="text-xs font-bold text-on-surface-variant uppercase tracking-widest">{label}</span>
+    </div>
   );
 }
 

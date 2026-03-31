@@ -1,56 +1,23 @@
 import React from "react";
-import { Container, Row, Col } from "react-bootstrap";
-import { AiFillGithub } from "react-icons/ai";
-import { FaLinkedinIn, FaWhatsapp } from "react-icons/fa";
+import { personalInfo } from "../data";
 
 function Footer() {
   let date = new Date();
   let year = date.getFullYear();
   return (
-    <Container fluid className="footer">
-      <Row>
-        <Col md="4" className="footer-copywright">
-          <h3>Diseñado y Desarrollado por Daniel Isaac</h3>
-        </Col>
-        <Col md="4" className="footer-copywright">
-          <h3>Copyright © {year} DE</h3>
-        </Col>
-        <Col md="4" className="footer-body">
-          <ul className="footer-icons">
-            <li className="social-icons">
-              <a
-                href="https://github.com/danielisaacdev"
-                style={{ color: "white" }}
-                target="_blank" 
-                rel="noopener noreferrer"
-              >
-                <AiFillGithub />
-              </a>
-            </li>
-            <li className="social-icons">
-              <a
-                href="https://www.linkedin.com/in/danielisaacdev"
-                style={{ color: "white" }}
-                target="_blank" 
-                rel="noopener noreferrer"
-              >
-                <FaLinkedinIn />
-              </a>
-            </li>
-            <li className="social-icons">
-              <a
-                href="https://wa.me/56992149141"
-                style={{ color: "white" }}
-                target="_blank" 
-                rel="noopener noreferrer"
-              >
-                <FaWhatsapp />
-              </a>
-            </li>
-          </ul>
-        </Col>
-      </Row>
-    </Container>
+    <footer className="w-full py-12 border-t border-[#313442]/30 bg-[#0a0e1a] relative z-10">
+      <div className="flex flex-col md:flex-row justify-between items-center max-w-7xl mx-auto px-8 gap-4">
+        <div className="text-sm font-bold text-[#f4fff5]">
+          {personalInfo.name.split(' ')[0]} {personalInfo.name.split(' ')[1]}
+        </div>
+        <div className="font-['Inter'] text-xs font-light tracking-wide text-[#bec7d3]">
+          © {year} {personalInfo.name.split(' ')[0]} {personalInfo.name.split(' ')[1]}. Built with precision.
+        </div>
+        <div>
+          <a className="font-['Inter'] text-xs font-light tracking-wide text-[#93ccff] hover:text-white transition-colors no-underline" href="#top">Volver Arriba</a>
+        </div>
+      </div>
+    </footer>
   );
 }
 
