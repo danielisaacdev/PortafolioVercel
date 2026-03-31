@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://capsule-render.vercel.app/render?type=soft&color=0077ff&height=200&section=header&text=Daniel%20Isaac&fontSize=70&animation=fadeIn&fontAlignY=38" width="100%" />
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&pause=1000&color=0077ff&size=45&center=true&vCenter=true&width=1000&height=200&lines=Daniel+Isaac;Data+Analyst;BI+Specialist" width="100%" />
   
   <br/>
 
@@ -66,5 +66,5 @@
 <hr/>
 
 <div align="center">
-  <img src="https://capsule-render.vercel.app/render?type=waving&color=0077ff&height=100&section=footer" width="100%" />
+  <p>💻 Gracias por visitar mi perfil. ¡Hagamos cosas increíbles con los datos!</p>
 </div>
