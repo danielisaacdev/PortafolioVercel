@@ -97,12 +97,14 @@ function App() {
     const isExternal = !matchedProject;
 
     return (
-      <div
+      <a
         key={repo.id || repo.name}
-        className="card"
+        href={localTarget}
+        {...(isExternal ? { target: '_blank', rel: 'noreferrer' } : {})}
+        className="card card-link"
         style={{ minWidth: '240px' }}
         role="group"
-        aria-label={repo.name}
+        aria-label={isExternal ? `Abrir repositorio ${repo.name}` : `Ir al proyecto ${matchedProject.name}`}
       >
         <h3 className="text-xl font-bold text-white truncate">{repo.name}</h3>
         <p className="text-sm text-on-surface-variant mt-1 h-20 overflow-hidden text-ellipsis">{repo.description || 'Descripción no disponible'}</p>
@@ -110,15 +112,7 @@ function App() {
           <span>{repo.language || 'N/A'}</span>
           <span>★ {repo.stargazers_count || 0}</span>
         </div>
-        <a
-          href={localTarget}
-          {...(isExternal ? { target: '_blank', rel: 'noreferrer' } : {})}
-          className="mt-3 inline-block text-xs font-semibold text-secondary-fixed hover:text-white transition-colors"
-          aria-label={isExternal ? `Abrir repositorio ${repo.name}` : `Ir al proyecto ${matchedProject.name}`}
-        >
-          {isExternal ? 'Abrir repositorio' : `Ir al proyecto ${matchedProject.name}`}
-        </a>
-      </div>
+      </a>
     );
   });
 

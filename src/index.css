@@ -108,7 +108,14 @@ body {
   padding: 20px;
   border: 1px solid rgba(99, 102, 241, 0.32);
   background: linear-gradient(140deg, #1E293B, #1E3A8A 80%);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease;
+  text-decoration: none;
+}
+
+.card-link:hover {
+  filter: brightness(0.92);
+  transform: translateY(-4px);
+  box-shadow: rgba(16, 38, 104, 0.55) 8px 8px 26px 0;
 }
 
 .card:hover {
