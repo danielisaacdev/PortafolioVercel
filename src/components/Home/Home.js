@@ -19,8 +19,8 @@ function Home() {
       
       {/* Hero Section */}
       <section className="min-h-screen flex flex-col justify-center px-6 max-w-7xl mx-auto overflow-hidden">
-        <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          <div className="lg:col-span-7 space-y-8 text-left">
+        <div className="relative z-10">
+          <div className="space-y-8 text-left max-w-4xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary-container/10 border border-secondary-container/20">
               <span className="w-2 h-2 rounded-full bg-secondary-fixed shadow-[0_0_8px_rgba(0,255,171,0.6)]"></span>
               <span className="text-[10px] uppercase tracking-widest font-bold text-secondary-fixed">Disponible para nuevos proyectos</span>
@@ -75,67 +75,7 @@ function Home() {
             </div>
           </div>
 
-          {/* Bento-style decorative element */}
-          <div className="lg:col-span-5 hidden lg:block relative h-[500px]">
-            <div className="absolute inset-0 grid grid-cols-2 grid-rows-2 gap-4">
-              {/* Card 1: Data Infrastructure */}
-              <Link
-                to="/about#skills"
-                aria-label="Ir a habilidades profesionales"
-                className="bg-surface-container-high rounded-xl p-6 flex flex-col justify-between border border-white/5 hover:bg-surface-container-highest hover:-translate-y-1 transition-all group no-underline"
-              >
-                <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
-                  <span className="material-symbols-outlined text-3xl">terminal</span>
-                </div>
-                <div>
-                  <div className="text-xs uppercase tracking-[0.2em] font-black text-primary mb-1">Expertise</div>
-                  <div className="text-sm font-bold opacity-90 leading-tight">Data Infrastructure</div>
-                </div>
-              </Link>
-
-              {/* Card 2: Analytics */}
-              <Link
-                to="/project"
-                aria-label="Ir a proyectos de análisis"
-                className="relative bg-primary/10 rounded-xl p-6 flex flex-col items-center justify-center min-h-[220px] border border-primary/20 overflow-hidden group hover:bg-primary/20 hover:-translate-y-1 transition-all no-underline"
-              >
-                <div className="absolute inset-0 flex items-center justify-center opacity-10 group-hover:scale-110 transition-transform duration-700">
-                  <span className="material-symbols-outlined text-primary text-9xl">analytics</span>
-                </div>
-                <div className="relative z-10 text-center space-y-2">
-                  <span className="material-symbols-outlined text-primary text-4xl block">auto_awesome</span>
-                  <div className="text-xs font-black uppercase tracking-widest text-primary/80">Smart Analysis</div>
-                </div>
-              </Link>
-
-              {/* Card 3: Clean Insights */}
-              <Link
-                to="/contact"
-                aria-label="Ir a contacto"
-                className="col-span-2 bg-surface-container rounded-xl p-8 border border-white/5 relative overflow-hidden group hover:bg-surface-container-high hover:-translate-y-1 transition-all no-underline"
-              >
-                <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:rotate-12 transition-transform">
-                  <span className="material-symbols-outlined text-8xl">database</span>
-                </div>
-                <div className="flex justify-between items-center relative z-10">
-                  <div className="space-y-3">
-                    <div className="inline-block px-2 py-0.5 rounded bg-secondary-container/20 text-secondary-fixed text-[10px] font-bold uppercase tracking-widest">
-                      BI Optimization
-                    </div>
-                    <div>
-                      <div className="text-3xl font-black mb-1 tracking-tighter text-gradient">Clean Insights.</div>
-                      <div className="text-sm text-on-surface-variant max-w-[240px] leading-relaxed">
-                        Transformando bases de datos en valor estratégico accionable mediante Power BI y SQL.
-                      </div>
-                    </div>
-                  </div>
-                  <div className="w-20 h-20 rounded-full bg-surface-container-highest flex items-center justify-center border border-white/10 shadow-inner group-hover:scale-105 transition-transform">
-                    <span className="material-symbols-outlined text-secondary-fixed text-4xl">bolt</span>
-                  </div>
-                </div>
-              </Link>
-            </div>
-          </div>
+          {/* Bento-style decorative element removed */}
         </div>
       </section>
 
