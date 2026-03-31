@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Preloader from "./components/Pre";
 import Navbar from "./components/Navbar";
@@ -15,14 +15,6 @@ function App() {
   const [load, updateLoad] = useState(true);
   const [githubProjects, setGithubProjects] = useState([]);
   const [loadingProjects, setLoadingProjects] = useState(true);
-  const projectsContainerRef = useRef(null);
-
-  const scrollProjects = (direction) => {
-    const el = projectsContainerRef.current;
-    if (!el) return;
-    const step = Math.max(el.clientWidth * 0.7, 320);
-    el.scrollBy({ left: direction * step, behavior: "smooth" });
-  };
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -76,38 +68,32 @@ function App() {
     }
   };
 
-  const projectCardVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: (i) => ({
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.4,
-        delay: i * 0.08
-      }
-    })
-  };
+  const filteredProjects = githubProjects
+    .filter(repo => !repo.name.toLowerCase().includes('portafolio') && repo.name.toLowerCase() !== 'danielisaacdev');
 
-  const backupProjects = [
-    {
-      id: 'static-1',
-      name: 'Dashboard de Ventas – Power BI',
-      description: 'Análisis de dataset de ventas para identificar tendencias comerciales y creación de dashboards interactivos para visualización de KPIs.',
-      html_url: '#',
-      language: 'Power BI',
-      stargazers_count: 0
-    },
-    {
-      id: 'static-2',
-      name: 'Análisis de Datos con Python',
-      description: 'Limpieza y preparación de datos utilizando Python. Análisis exploratorio para identificar patrones y métricas relevantes.',
-      html_url: '#',
-      language: 'Python',
-      stargazers_count: 0
-    }
+  const projectsToShow = filteredProjects.length > 0 ? filteredProjects : [
+    { id: 'static-1', name: 'Dashboard de Ventas – Power BI', description: 'Análisis de dataset de ventas para identificar tendencias comerciales y creación de dashboards interactivos para visualización de KPIs.', html_url: '#', language: 'Power BI', stargazers_count: 0 },
+    { id: 'static-2', name: 'Análisis de Datos con Python', description: 'Limpieza y preparación de datos utilizando Python. Análisis exploratorio para identificar patrones y métricas relevantes.', html_url: '#', language: 'Python', stargazers_count: 0 },
+    { id: 'static-3', name: 'Proyecto Extra', description: 'Prototipo de un proyecto extra para carrusel infinito.', html_url: '#', language: 'JavaScript', stargazers_count: 0 }
   ];
 
-  const projectsToDisplay = githubProjects.length > 0 ? githubProjects : backupProjects;
+  const projectCards = (repos) => repos.map((repo, index) => (
+    <div
+      key={repo.id || repo.name}
+      className="card"
+      style={{ minWidth: '240px' }}
+      role="group"
+      aria-label={repo.name}
+    >
+      <h3 className="text-xl font-bold text-white truncate">{repo.name}</h3>
+      <p className="text-sm text-on-surface-variant mt-1 h-20 overflow-hidden text-ellipsis">{repo.description || 'Descripción no disponible'}</p>
+      <div className="mt-3 flex items-center justify-between text-xs text-on-surface-variant">
+        <span>{repo.language || 'N/A'}</span>
+        <span>★ {repo.stargazers_count || 0}</span>
+      </div>
+    </div>
+  ));
+
 
   return (
     <ErrorBoundary>
@@ -316,67 +302,19 @@ function App() {
               </motion.h2>
             </motion.div>
 
-            <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-surface-container-lowest px-2 py-3">
-              <button
-                type="button"
-                onClick={() => scrollProjects(-1)}
-                className="absolute left-2 top-1/2 z-20 -translate-y-1/2 rounded-full bg-surface-container border border-white/10 p-2 text-on-surface hover:bg-surface-container-high transition-opacity opacity-80 hover:opacity-100"
-                aria-label="Anterior"
-              >
-                ‹
-              </button>
-              <button
-                type="button"
-                onClick={() => scrollProjects(1)}
-                className="absolute right-2 top-1/2 z-20 -translate-y-1/2 rounded-full bg-surface-container border border-white/10 p-2 text-on-surface hover:bg-surface-container-high transition-opacity opacity-80 hover:opacity-100"
-                aria-label="Siguiente"
-              >
-                ›
-              </button>
-
-              <motion.div
-                ref={projectsContainerRef}
-                className="flex gap-4 overflow-x-auto scroll-smooth snap-x snap-mandatory px-8 pb-2 pt-4 no-scrollbar"
-                variants={containerVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-              >
-                {loadingProjects ? (
-                  <div className="w-full text-center text-on-surface-variant">Cargando repositorios de GitHub...</div>
-                ) : (
-                  projectsToDisplay
-                    .filter(repo => !repo.name.toLowerCase().includes('portafolio') && repo.name.toLowerCase() !== 'danielisaacdev')
-                    .map((repo, index) => (
-                      <motion.a
-                        key={repo.id || repo.name}
-                        href={repo.html_url || '#'}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="snap-center shrink-0 w-72 md:w-80 lg:w-96 bg-surface-container rounded-2xl p-4 border border-white/10 hover:border-primary/30 transition-all group"
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        variants={projectCardVariants}
-                        custom={index}
-                        whileHover={{ y: -2, scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                      >
-                        <div className="text-center space-y-2">
-                          <div className="text-primary text-3xl mb-1">
-                            <span className="material-symbols-outlined">code</span>
-                          </div>
-                          <h3 className="text-lg font-bold text-white truncate">{repo.name}</h3>
-                          <p className="text-sm text-on-surface-variant mt-1 h-14 overflow-hidden text-ellipsis">{repo.description || 'Descripción no disponible'}</p>
-                        </div>
-                        <div className="mt-3 flex items-center justify-between text-xs text-on-surface-variant">
-                          <span>{repo.language || 'N/A'}</span>
-                          <span>★ {repo.stargazers_count || 0}</span>
-                        </div>
-                      </motion.a>
-                    ))
-                )}
-              </motion.div>
+            <div className="carousel" aria-label="Carrusel de proyectos">
+              {loadingProjects ? (
+                <div className="text-center text-on-surface-variant">Cargando repositorios de GitHub...</div>
+              ) : (
+                <>
+                  <div className="group">
+                    {projectCards(projectsToShow)}
+                  </div>
+                  <div className="group" aria-hidden="true">
+                    {projectCards(projectsToShow)}
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </motion.section>
