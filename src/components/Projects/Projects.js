@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { AiFillGithub, AiOutlineGlobal, AiOutlineClose } from "react-icons/ai";
+import { AiOutlineGlobal, AiOutlineClose, AiFillGithub } from "react-icons/ai";
 
 function Projects() {
   const [repos, setRepos] = useState([]);
