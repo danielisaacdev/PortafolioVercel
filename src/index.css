@@ -82,7 +82,7 @@ body {
   box-shadow: 0 10px 40px rgba(24, 58, 150, 0.25);
 }
 
-.group {
+.projects-carousel .group {
   display: flex;
   gap: 20px;
   padding-right: 20px;
