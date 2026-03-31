@@ -47,9 +47,9 @@
 ### 📊 Mis Estadísticas
 
 <div align="center">
-  <img src="https://github-readme-stats.vercel.app/api?username=danielisaacdev&show_icons=true&theme=tokyonight&count_private=true&hide_border=true" alt="GitHub Stats" />
+  <img src="https://github-profile-trophy.vercel.app/?username=danielisaacdev&theme=tokyonight&no-bg=true&no-frame=true" alt="GitHub Trophies" width="100%" />
   <br/>
-  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=danielisaacdev&layout=compact&theme=tokyonight&hide_border=true" alt="Top Langs" />
+  <img src="https://github-readme-streak-stats.herokuapp.com?user=danielisaacdev&theme=tokyonight&hide_border=true" alt="Streak Stats" />
 </div>
 
 <hr/>
