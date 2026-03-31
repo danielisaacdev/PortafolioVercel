@@ -7,6 +7,7 @@ import { FaLinkedinIn, FaPython, FaGitAlt, FaDatabase } from "react-icons/fa";
 import { SiPowerbi, SiMicrosoftsqlserver, SiOracle } from "react-icons/si";
 import ErrorBoundary from "./components/ErrorBoundary";
 import Type from "./components/Home/Type";
+import { personalInfo } from "./data";
 
 // Styling
 import "./index.css";
@@ -68,6 +69,14 @@ function App() {
     }
   };
 
+  const slugify = (text) =>
+    text
+      .toString()
+      .toLowerCase()
+      .trim()
+      .replace(/\s+/g, '-')
+      .replace(/[^a-z0-9-]/g, '');
+
   const filteredProjects = githubProjects
     .filter(repo => !repo.name.toLowerCase().includes('portafolio') && repo.name.toLowerCase() !== 'danielisaacdev');
 
@@ -77,22 +86,41 @@ function App() {
     { id: 'static-3', name: 'Proyecto Extra', description: 'Prototipo de un proyecto extra para carrusel infinito.', html_url: '#', language: 'JavaScript', stargazers_count: 0 }
   ];
 
-  const projectCards = (repos) => repos.map((repo, index) => (
-    <div
-      key={repo.id || repo.name}
-      className="card"
-      style={{ minWidth: '240px' }}
-      role="group"
-      aria-label={repo.name}
-    >
-      <h3 className="text-xl font-bold text-white truncate">{repo.name}</h3>
-      <p className="text-sm text-on-surface-variant mt-1 h-20 overflow-hidden text-ellipsis">{repo.description || 'Descripción no disponible'}</p>
-      <div className="mt-3 flex items-center justify-between text-xs text-on-surface-variant">
-        <span>{repo.language || 'N/A'}</span>
-        <span>★ {repo.stargazers_count || 0}</span>
+  const projectCards = (repos) => repos.map((repo, index) => {
+    const matchedProject = personalInfo.projects.find((p) => {
+      const repoName = repo.name.toLowerCase().replace(/\s|[-_]/g, '');
+      const projectName = p.name.toLowerCase().replace(/\s|[-_]/g, '');
+      return projectName.includes(repoName) || repoName.includes(projectName);
+    });
+
+    const localTarget = matchedProject ? `#project-${slugify(matchedProject.name)}` : repo.html_url || '#';
+    const isExternal = !matchedProject;
+
+    return (
+      <div
+        key={repo.id || repo.name}
+        className="card"
+        style={{ minWidth: '240px' }}
+        role="group"
+        aria-label={repo.name}
+      >
+        <h3 className="text-xl font-bold text-white truncate">{repo.name}</h3>
+        <p className="text-sm text-on-surface-variant mt-1 h-20 overflow-hidden text-ellipsis">{repo.description || 'Descripción no disponible'}</p>
+        <div className="mt-3 flex items-center justify-between text-xs text-on-surface-variant">
+          <span>{repo.language || 'N/A'}</span>
+          <span>★ {repo.stargazers_count || 0}</span>
+        </div>
+        <a
+          href={localTarget}
+          {...(isExternal ? { target: '_blank', rel: 'noreferrer' } : {})}
+          className="mt-3 inline-block text-xs font-semibold text-secondary-fixed hover:text-white transition-colors"
+          aria-label={isExternal ? `Abrir repositorio ${repo.name}` : `Ir al proyecto ${matchedProject.name}`}
+        >
+          {isExternal ? 'Abrir repositorio' : `Ir al proyecto ${matchedProject.name}`}
+        </a>
       </div>
-    </div>
-  ));
+    );
+  });
 
 
   return (
@@ -315,6 +343,20 @@ function App() {
                   </div>
                 </>
               )}
+            </div>
+
+            <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6">
+              {personalInfo.projects.map((project) => (
+                <article
+                  key={project.name}
+                  id={`project-${slugify(project.name)}`}
+                  className="bg-surface-container rounded-2xl p-6 border border-white/5"
+                >
+                  <h3 className="text-2xl font-bold text-white mb-2">{project.name}</h3>
+                  <p className="text-on-surface-variant leading-relaxed">{project.description}</p>
+                  <div className="mt-4 text-xs text-primary">Tecnologías: {project.tags ? project.tags.join(', ') : project.language || 'N/A'}</div>
+                </article>
+              ))}
             </div>
           </div>
         </motion.section>
