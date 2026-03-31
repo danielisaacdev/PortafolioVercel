@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import Preloader from "./components/Pre";
 import Navbar from "./components/Navbar";
@@ -15,6 +15,14 @@ function App() {
   const [load, updateLoad] = useState(true);
   const [githubProjects, setGithubProjects] = useState([]);
   const [loadingProjects, setLoadingProjects] = useState(true);
+  const projectsContainerRef = useRef(null);
+
+  const scrollProjects = (direction) => {
+    const el = projectsContainerRef.current;
+    if (!el) return;
+    const step = Math.max(el.clientWidth * 0.7, 320);
+    el.scrollBy({ left: direction * step, behavior: "smooth" });
+  };
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -296,44 +304,64 @@ function App() {
               </motion.h2>
             </motion.div>
 
-            <motion.div
-              className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4"
-              variants={containerVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-            >
-              {loadingProjects ? (
-                <div className="col-span-full text-center text-on-surface-variant">Cargando repositorios de GitHub...</div>
-              ) : (
-                projectsToDisplay
-                  .filter(repo => !repo.name.toLowerCase().includes('portafolio'))
-                  .map((repo) => (
-                    <motion.a
-                      key={repo.id || repo.name}
-                      href={repo.html_url || '#'}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="bg-surface-container rounded-xl p-3 border border-white/10 hover:border-primary/30 transition-all group"
-                      variants={sectionVariants}
-                      whileHover={{ y: -2, scale: 1.01 }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      <div className="text-center">
-                        <div className="text-primary text-2xl mb-2">
-                          <span className="material-symbols-outlined">code</span>
+            <div className="relative">
+              <button
+                type="button"
+                onClick={() => scrollProjects(-1)}
+                className="absolute left-0 top-1/2 z-20 -translate-y-1/2 rounded-full bg-surface-container border border-white/10 p-2 text-on-surface hover:bg-surface-container-high transition-opacity opacity-80 hover:opacity-100"
+                aria-label="Anterior"
+              >
+                ‹
+              </button>
+              <button
+                type="button"
+                onClick={() => scrollProjects(1)}
+                className="absolute right-0 top-1/2 z-20 -translate-y-1/2 rounded-full bg-surface-container border border-white/10 p-2 text-on-surface hover:bg-surface-container-high transition-opacity opacity-80 hover:opacity-100"
+                aria-label="Siguiente"
+              >
+                ›
+              </button>
+
+              <motion.div
+                ref={projectsContainerRef}
+                className="flex gap-4 overflow-x-auto scroll-smooth snap-x snap-mandatory px-2 pb-2 pt-4"
+                variants={containerVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+              >
+                {loadingProjects ? (
+                  <div className="w-full text-center text-on-surface-variant">Cargando repositorios de GitHub...</div>
+                ) : (
+                  projectsToDisplay
+                    .filter(repo => !repo.name.toLowerCase().includes('portafolio') && repo.name.toLowerCase() !== 'danielisaacdev')
+                    .map((repo) => (
+                      <motion.a
+                        key={repo.id || repo.name}
+                        href={repo.html_url || '#'}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="snap-center shrink-0 w-72 md:w-80 lg:w-96 bg-surface-container rounded-2xl p-4 border border-white/10 hover:border-primary/30 transition-all group"
+                        variants={sectionVariants}
+                        whileHover={{ y: -2, scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                      >
+                        <div className="text-center space-y-2">
+                          <div className="text-primary text-3xl mb-1">
+                            <span className="material-symbols-outlined">code</span>
+                          </div>
+                          <h3 className="text-lg font-bold text-white truncate">{repo.name}</h3>
+                          <p className="text-sm text-on-surface-variant mt-1 h-14 overflow-hidden text-ellipsis">{repo.description || 'Descripción no disponible'}</p>
                         </div>
-                        <h3 className="text-sm font-bold text-white truncate">{repo.name}</h3>
-                        <p className="text-[11px] text-on-surface-variant mt-1 h-10 overflow-hidden text-ellipsis">{repo.description || 'Descripción no disponible'}</p>
-                      </div>
-                      <div className="mt-4 flex items-center justify-between text-[10px] text-on-surface-variant">
-                        <span>{repo.language || 'N/A'}</span>
-                        <span>★ {repo.stargazers_count || 0}</span>
-                      </div>
-                    </motion.a>
-                  ))
-              )}
-            </motion.div>
+                        <div className="mt-3 flex items-center justify-between text-xs text-on-surface-variant">
+                          <span>{repo.language || 'N/A'}</span>
+                          <span>★ {repo.stargazers_count || 0}</span>
+                        </div>
+                      </motion.a>
+                    ))
+                )}
+              </motion.div>
+            </div>
           </div>
         </motion.section>
 
