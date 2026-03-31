@@ -79,7 +79,11 @@ function Home() {
           <div className="lg:col-span-5 hidden lg:block relative h-[500px]">
             <div className="absolute inset-0 grid grid-cols-2 grid-rows-2 gap-4">
               {/* Card 1: Data Infrastructure */}
-              <div className="bg-surface-container-high rounded-xl p-6 flex flex-col justify-between border border-white/5 hover:bg-surface-container-highest transition-colors group">
+              <Link
+                to="/about#skills"
+                aria-label="Ir a habilidades profesionales"
+                className="bg-surface-container-high rounded-xl p-6 flex flex-col justify-between border border-white/5 hover:bg-surface-container-highest hover:-translate-y-1 transition-all group no-underline"
+              >
                 <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
                   <span className="material-symbols-outlined text-3xl">terminal</span>
                 </div>
@@ -87,10 +91,14 @@ function Home() {
                   <div className="text-xs uppercase tracking-[0.2em] font-black text-primary mb-1">Expertise</div>
                   <div className="text-sm font-bold opacity-90 leading-tight">Data Infrastructure</div>
                 </div>
-              </div>
+              </Link>
 
               {/* Card 2: Analytics - Added 'relative' to fix the overlap issue */}
-              <div className="relative bg-primary/10 rounded-xl p-6 flex flex-col items-center justify-center border border-primary/20 overflow-hidden group">
+              <Link
+                to="/project"
+                aria-label="Ir a proyectos de análisis"
+                className="relative bg-primary/10 rounded-xl p-6 flex flex-col items-center justify-center border border-primary/20 overflow-hidden group hover:-translate-y-1 transition-transform no-underline"
+              >
                 <div className="absolute inset-0 flex items-center justify-center opacity-10 group-hover:scale-110 transition-transform duration-700">
                   <span className="material-symbols-outlined text-primary text-9xl">analytics</span>
                 </div>
@@ -98,10 +106,14 @@ function Home() {
                   <span className="material-symbols-outlined text-primary text-5xl mb-3 block">auto_awesome</span>
                   <div className="text-xs font-black uppercase tracking-widest text-primary/80">Smart Analysis</div>
                 </div>
-              </div>
+              </Link>
 
               {/* Card 3: Clean Insights */}
-              <div className="col-span-2 bg-surface-container rounded-xl p-8 border border-white/5 relative overflow-hidden group hover:bg-surface-container-high transition-colors">
+              <Link
+                to="/contact"
+                aria-label="Ir a contacto"
+                className="col-span-2 bg-surface-container rounded-xl p-8 border border-white/5 relative overflow-hidden group hover:bg-surface-container-high hover:-translate-y-1 transition-all no-underline"
+              >
                 <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:rotate-12 transition-transform">
                   <span className="material-symbols-outlined text-8xl">database</span>
                 </div>
@@ -121,7 +133,7 @@ function Home() {
                     <span className="material-symbols-outlined text-secondary-fixed text-4xl">bolt</span>
                   </div>
                 </div>
-              </div>
+              </Link>
             </div>
           </div>
         </div>

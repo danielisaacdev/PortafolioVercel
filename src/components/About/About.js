@@ -4,6 +4,7 @@ import Github from "./Github";
 import { AiFillGithub } from "react-icons/ai";
 import { FaPython, FaDatabase, FaGitAlt, FaLinkedinIn } from "react-icons/fa";
 import { SiPowerbi, SiMicrosoftsqlserver, SiOracle } from "react-icons/si";
+import { Link } from "react-router-dom";
 
 function About() {
   const aboutActions = [
@@ -50,7 +51,11 @@ function About() {
             ))}
           </div>
         </div>
-        <div className="lg:col-span-5 hidden lg:block bg-surface-container rounded-2xl p-8 border border-white/5 shadow-2xl">
+        <Link
+          to="/resume"
+          aria-label="Ir al currículum"
+          className="lg:col-span-5 hidden lg:block bg-surface-container rounded-2xl p-8 border border-white/5 shadow-2xl no-underline hover:-translate-y-1 hover:bg-surface-container-high transition-all"
+        >
           <div className="flex flex-col items-center gap-6">
             <div className="w-48 h-48 rounded-full bg-gradient-to-br from-primary to-primary-container p-1 shadow-xl shadow-primary/20">
                <div className="w-full h-full bg-[#0f131f] rounded-full flex items-center justify-center">
@@ -64,13 +69,16 @@ function About() {
               <p className="text-primary-container text-xs font-bold uppercase tracking-widest mt-1">
                 {personalInfo.role}
               </p>
+              <p className="text-[10px] text-on-surface-variant uppercase tracking-[0.15em] mt-3">
+                Ver currículum
+              </p>
             </div>
           </div>
-        </div>
+        </Link>
       </section>
 
       {/* Skills Grid */}
-      <section className="mb-24">
+      <section id="skills" className="mb-24">
         <h2 className="text-3xl font-bold text-white mb-12 flex items-center gap-3">
           <span className="material-symbols-outlined text-primary">terminal</span>
           Habilidades Profesionales
