@@ -361,8 +361,8 @@ function App() {
               variants={sectionVariants}
             >
               <p className="text-xl text-on-surface-variant leading-relaxed">
-                ¿Tienes un proyecto de análisis de datos o business intelligence?
-                Estoy disponible para discutir cómo podemos trabajar juntos.
+                ¿Buscas un especialista en análisis de datos y business intelligence?
+                Estoy disponible para nuevos proyectos y colaboraciones.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -383,6 +383,70 @@ function App() {
                   WhatsApp
                 </a>
               </div>
+            </motion.div>
+
+            <motion.div
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-4xl mx-auto"
+              variants={containerVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+            >
+              {[
+                {
+                  icon: "email",
+                  label: "EMAIL",
+                  value: "daniel.isaac.dev@gmail.com",
+                  href: "mailto:daniel.isaac.dev@gmail.com",
+                  color: "text-primary"
+                },
+                {
+                  icon: "phone",
+                  label: "TELÉFONO",
+                  value: "+56 9 9214 9141",
+                  href: "tel:+56992149141",
+                  color: "text-secondary-fixed"
+                },
+                {
+                  icon: "business",
+                  label: "LINKEDIN",
+                  value: "danielisaacdev",
+                  href: "https://www.linkedin.com/in/danielisaacdev/",
+                  color: "text-blue-400"
+                },
+                {
+                  icon: "code",
+                  label: "GITHUB",
+                  value: "danielisaacdev",
+                  href: "https://github.com/danielisaacdev",
+                  color: "text-gray-300"
+                }
+              ].map((contact, index) => (
+                <motion.a
+                  key={contact.label}
+                  href={contact.href}
+                  target={contact.href.startsWith('http') ? '_blank' : undefined}
+                  rel={contact.href.startsWith('http') ? 'noreferrer' : undefined}
+                  className="group bg-surface-container rounded-2xl p-6 border border-white/5 hover:border-primary/20 transition-all hover:-translate-y-1"
+                  variants={sectionVariants}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <div className="text-center space-y-3">
+                    <div className={`w-12 h-12 rounded-xl bg-surface-container-high flex items-center justify-center mx-auto ${contact.color}`}>
+                      <span className="material-symbols-outlined text-2xl">{contact.icon}</span>
+                    </div>
+                    <div>
+                      <div className="text-xs font-bold text-primary uppercase tracking-widest mb-1">
+                        {contact.label}
+                      </div>
+                      <div className="text-sm text-on-surface-variant group-hover:text-white transition-colors">
+                        {contact.value}
+                      </div>
+                    </div>
+                  </div>
+                </motion.a>
+              ))}
             </motion.div>
           </motion.div>
         </motion.section>
