@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Daniel Isaac Elgueta — Portfolio 3D</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:#0f131f;color:#dfe2f3;font-family:'Space Grotesk',sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:#0f131f}::-webkit-scrollbar-thumb{background:#93ccff;border-radius:2px}
+
+/* ── Aurora ── */
+.aurora-blob{position:absolute;border-radius:50%;filter:blur(100px);opacity:0;animation:blobIn 2.5s ease forwards,blobDrift 22s ease-in-out infinite alternate}
+.aurora-blob:nth-child(1){width:700px;height:700px;top:-15%;left:-20%;background:radial-gradient(circle,rgba(147,204,255,.9) 0%,transparent 70%);animation-delay:.2s,.2s}
+.aurora-blob:nth-child(2){width:600px;height:600px;top:20%;right:-12%;background:radial-gradient(circle,rgba(77,255,178,.8) 0%,transparent 70%);animation-delay:.7s,.7s}
+.aurora-blob:nth-child(3){width:500px;height:500px;bottom:0;left:25%;background:radial-gradient(circle,rgba(228,181,255,.7) 0%,transparent 70%);animation-delay:1.2s,1.2s}
+@keyframes blobIn{to{opacity:.11}}
+@keyframes blobDrift{0%{transform:translate(0,0) scale(1)}33%{transform:translate(50px,-40px) scale(1.1)}66%{transform:translate(-30px,60px) scale(.93)}100%{transform:translate(40px,25px) scale(1.06)}}
+
+/* ── Grid ── */
+.grid-bg{position:fixed;inset:0;pointer-events:none;z-index:0;background-image:linear-gradient(rgba(147,204,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(147,204,255,.03) 1px,transparent 1px);background-size:65px 65px}
+
+/* ── Text effects ── */
+.text-glow{background:linear-gradient(135deg,#93ccff 0%,#4dffb2 50%,#e4b5ff 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.text-white-glow{background:linear-gradient(160deg,#fff 0%,#93ccff 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+
+/* ── Glass ── */
+.glass{background:rgba(27,31,44,.6);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(147,204,255,.1)}
+
+/* ── Reveal ── */
+.reveal{opacity:0;transform:translateY(48px);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1)}
+.reveal.in{opacity:1;transform:translateY(0)}
+
+/* ── Tilt card ── */
+.tilt-wrap{perspective:1000px}
+.tilt-card{transform-style:preserve-3d;position:relative;transition:box-shadow .3s}
+.tilt-shine{position:absolute;inset:0;border-radius:inherit;background:radial-gradient(circle at var(--px,50%) var(--py,50%),rgba(147,204,255,.18) 0%,transparent 65%);opacity:0;transition:opacity .3s;pointer-events:none;z-index:5}
+
+/* ── Ticker ── */
+@keyframes ticker{to{transform:translateX(-50%)}}
+.ticker-track{animation:ticker 22s linear infinite;display:flex;width:max-content}
+
+/* ── Floating ── */
+@keyframes floatSkill{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+
+/* ── Holo card ── */
+.holo-card{background:linear-gradient(135deg,rgba(27,31,44,.85),rgba(15,20,40,.85));border:1px solid rgba(147,204,255,.15);position:relative;overflow:hidden;transition:all .35s cubic-bezier(.16,1,.3,1)}
+.holo-card::after{content:'';position:absolute;inset:0;background:linear-gradient(125deg,transparent 40%,rgba(147,204,255,.08) 50%,transparent 60%);background-size:300% 300%;animation:holoSwipe 4s linear infinite}
+@keyframes holoSwipe{0%{background-position:0% 0%}100%{background-position:300% 300%}}
+.holo-card:hover{border-color:rgba(147,204,255,.45);transform:translateY(-6px) scale(1.02);box-shadow:0 25px 70px rgba(147,204,255,.18)}
+
+/* ── Scan ── */
+.scanner{position:relative;overflow:hidden}
+.scanner::before{content:'';position:absolute;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(77,255,178,.7),transparent);animation:scanLine 2.8s linear infinite;z-index:10}
+@keyframes scanLine{0%{top:0;opacity:0}5%{opacity:1}95%{opacity:1}100%{top:100%;opacity:0}}
+
+/* ── Pulse ── */
+@keyframes pulseDot{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(77,255,178,.4)}50%{opacity:.6;box-shadow:0 0 0 6px rgba(77,255,178,0)}}
+.pulse-dot{animation:pulseDot 2s ease-in-out infinite}
+
+/* ── Cursor glow ── */
+.cursor-glow{position:fixed;pointer-events:none;z-index:9999;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(147,204,255,.07) 0%,transparent 70%);transform:translate(-50%,-50%);transition:left .08s linear,top .08s linear;will-change:left,top}
+
+/* ── Buttons ── */
+.btn-p{display:inline-flex;align-items:center;gap:8px;padding:13px 30px;border-radius:8px;font-weight:700;font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;background:linear-gradient(135deg,#93ccff,#4dffb2);color:#0a0e1a;cursor:pointer;border:none;transition:transform .2s,box-shadow .2s;box-shadow:0 0 35px rgba(147,204,255,.25);text-decoration:none;font-family:'Space Grotesk',sans-serif}
+.btn-p:hover{transform:translateY(-2px) scale(1.02);box-shadow:0 0 60px rgba(147,204,255,.45)}
+.btn-g{display:inline-flex;align-items:center;gap:8px;padding:13px 30px;border-radius:8px;font-weight:700;font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;background:transparent;color:#93ccff;border:1px solid rgba(147,204,255,.3);cursor:pointer;transition:all .2s;text-decoration:none;font-family:'Space Grotesk',sans-serif}
+.btn-g:hover{background:rgba(147,204,255,.07);border-color:#93ccff;transform:translateY(-2px)}
+
+/* ── Navbar ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;transition:box-shadow .3s}
+nav .inner{max-width:1200px;margin:0 auto;padding:0 28px;height:64px;display:flex;align-items:center;justify-content:space-between}
+.nav-link{background:none;border:none;cursor:pointer;font-size:.82rem;font-weight:600;letter-spacing:.04em;padding-bottom:2px;border-bottom:1.5px solid transparent;transition:color .2s,border-color .2s;font-family:'Space Grotesk',sans-serif}
+.nav-link.active{color:#93ccff;border-bottom-color:#93ccff}
+.nav-link:not(.active){color:#bec7d3}
+.nav-link:not(.active):hover{color:#fff}
+
+/* ── Section label ── */
+.s-label{font-size:.62rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#93ccff}
+
+/* ── Skill float cards ── */
+.sk-card{background:rgba(27,31,44,.7);border:1px solid rgba(147,204,255,.12);border-radius:16px;padding:24px 16px;text-align:center;transition:all .3s;cursor:default}
+.sk-card:hover{border-color:rgba(147,204,255,.5);background:rgba(147,204,255,.06);transform:translateY(-8px) scale(1.05);box-shadow:0 20px 50px rgba(147,204,255,.18)}
+
+/* ── Canvas ── */
+#hero-canvas{position:absolute;inset:0;width:100%;height:100%}
+
+/* ── Mobile ── */
+@media(max-width:768px){
+  .nav-desktop{display:none!important}
+  .about-grid{grid-template-columns:1fr!important}
+  .projects-grid{grid-template-columns:1fr!important}
+  .contact-grid{grid-template-columns:1fr 1fr!important}
+  .skills-grid{grid-template-columns:repeat(4,1fr)!important}
+  .stats-row{gap:24px!important}
+}
+@media(max-width:480px){
+  .skills-grid{grid-template-columns:repeat(2,1fr)!important}
+  .contact-grid{grid-template-columns:1fr!important}
+}
+</style>
+</head>
+<body>
+
+<!-- Cursor glow -->
+<div class="cursor-glow" id="cursor"></div>
+
+<!-- Aurora bg -->
+<div style="position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none">
+  <div class="aurora-blob"></div>
+  <div class="aurora-blob"></div>
+  <div class="aurora-blob"></div>
+</div>
+<div class="grid-bg"></div>
+
+<!-- ═══════════════════ NAVBAR ═══════════════════ -->
+<nav class="glass" id="navbar">
+  <div class="inner">
+    <a href="#home" class="nav-logo" style="font-weight:800;font-size:1.05rem;letter-spacing:-.03em;text-decoration:none;display:flex;align-items:center;gap:0">
+      <span style="color:#dfe2f3">daniel</span><span style="color:#93ccff">isaac</span><span style="color:#4dffb2">.dev</span>
+    </a>
+    <div class="nav-desktop" style="display:flex;gap:32px;align-items:center">
+      <button class="nav-link active" data-target="home">Inicio</button>
+      <button class="nav-link" data-target="about">Sobre Mí</button>
+      <button class="nav-link" data-target="skills">Skills</button>
+      <button class="nav-link" data-target="projects">Proyectos</button>
+      <button class="nav-link" data-target="contact">Contacto</button>
+    </div>
+    <button id="hamburger" style="display:none;background:none;border:none;cursor:pointer;color:#93ccff;font-size:22px">☰</button>
+  </div>
+  <div id="mobile-menu" style="display:none;padding:16px 28px;border-top:1px solid rgba(147,204,255,.08);flex-direction:column;gap:16px">
+    <button class="nav-link active" data-target="home" style="text-align:left">Inicio</button>
+    <button class="nav-link" data-target="about" style="text-align:left">Sobre Mí</button>
+    <button class="nav-link" data-target="skills" style="text-align:left">Skills</button>
+    <button class="nav-link" data-target="projects" style="text-align:left">Proyectos</button>
+    <button class="nav-link" data-target="contact" style="text-align:left">Contacto</button>
+  </div>
+</nav>
+
+<!-- ═══════════════════ HERO ═══════════════════ -->
+<section id="home" style="position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:0 32px;overflow:hidden">
+  <canvas id="hero-canvas"></canvas>
+  <div style="position:relative;z-index:2;max-width:920px;margin:0 auto;width:100%;padding-top:80px">
+
+    <!-- Badge -->
+    <div style="display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:20px;background:rgba(77,255,178,.08);border:1px solid rgba(77,255,178,.2);margin-bottom:32px">
+      <span class="pulse-dot" style="width:7px;height:7px;border-radius:50%;background:#4dffb2;display:inline-block"></span>
+      <span style="font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#4dffb2">Disponible · Santiago, Chile</span>
+    </div>
+
+    <!-- Name -->
+    <h1 style="font-size:clamp(2.8rem,8vw,7rem);font-weight:900;letter-spacing:-.04em;line-height:1;margin-bottom:16px">
+      <span class="text-white-glow" style="display:block">Daniel Isaac</span>
+      <span class="text-glow" style="display:block">Elgueta Fuentes</span>
+    </h1>
+
+    <!-- Typewriter -->
+    <div style="font-size:clamp(1.1rem,3vw,1.7rem);font-weight:700;color:#93ccff;min-height:48px;margin-bottom:24px;letter-spacing:-.02em">
+      <span id="typewriter"></span><span id="cursor-bar" style="opacity:.8">|</span>
+    </div>
+
+    <!-- Description -->
+    <p style="font-size:1.05rem;color:#bec7d3;max-width:560px;line-height:1.75;margin-bottom:40px;font-weight:300">
+      Especializado en <strong style="color:#dfe2f3;font-weight:600">análisis de datos</strong>, inteligencia de negocios y machine learning. Transformo datos en decisiones estratégicas.
+    </p>
+
+    <!-- CTAs -->
+    <div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:56px">
+      <a href="#projects" class="btn-p" id="cta-projects">Ver Proyectos →</a>
+      <a href="#contact" class="btn-g" id="cta-contact">Contáctame</a>
+    </div>
+
+  </div>
+
+  <!-- Scroll hint -->
+  <div style="position:absolute;bottom:32px;left:50%;transform:translateX(-50%);z-index:2;display:flex;flex-direction:column;align-items:center;gap:8px">
+    <span style="font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:#bec7d3;opacity:.5">scroll</span>
+    <div style="width:1px;height:48px;background:linear-gradient(to bottom,#93ccff,transparent)"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════ TICKER ═══════════════════ -->
+<div style="overflow:hidden;border-top:1px solid rgba(147,204,255,.08);border-bottom:1px solid rgba(147,204,255,.08);padding:14px 0;background:rgba(147,204,255,.03)">
+  <div class="ticker-track" id="ticker"></div>
+</div>
+
+<!-- ═══════════════════ ABOUT ═══════════════════ -->
+<section id="about" style="padding:120px 32px">
+  <div class="reveal about-grid" style="max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center">
+    <div>
+      <p class="s-label" style="margin-bottom:16px">// Sobre Mí</p>
+      <h2 style="font-size:clamp(2rem,5vw,3.8rem);font-weight:900;letter-spacing:-.04em;line-height:1.05;margin-bottom:28px">
+        ¿Quién <span class="text-glow">SOY?</span>
+      </h2>
+      <div style="display:flex;flex-direction:column;gap:16px;color:#bec7d3;line-height:1.75;font-weight:300;font-size:1.05rem">
+        <p>Soy <strong style="color:#dfe2f3;font-weight:600">Daniel Isaac Elgueta Fuentes</strong>, estudiante de Ingeniería en Informática con una fuerte inclinación hacia el mundo de los datos.</p>
+        <p>Mi objetivo es utilizar la tecnología para extraer información valiosa que guíe la <strong style="color:#93ccff;font-weight:600">toma de decisiones estratégicas</strong>. Me especializo en Business Intelligence, Análisis de Datos y SQL.</p>
+        <p>Me apasiona aprender sobre IA, Machine Learning y mantenerme al tanto de las tendencias tecnológicas.</p>
+      </div>
+      <div style="display:flex;gap:12px;margin-top:32px;flex-wrap:wrap">
+        <a href="https://github.com/danielisaacdev" target="_blank" class="btn-g" style="padding:10px 20px;font-size:.75rem">GitHub ↗</a>
+        <a href="https://www.linkedin.com/in/danielisaacdev/" target="_blank" class="btn-g" style="padding:10px 20px;font-size:.75rem">LinkedIn ↗</a>
+      </div>
+    </div>
+
+    <div class="tilt-wrap">
+      <div class="tilt-card scanner" style="background:rgba(27,31,44,.75);border:1px solid rgba(147,204,255,.15);border-radius:20px;padding:36px;backdrop-filter:blur(20px)">
+        <div class="tilt-shine"></div>
+        <div style="margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid rgba(147,204,255,.08)">
+          <div style="font-size:.6rem;font-weight:700;letter-spacing:.2em;color:#4dffb2;text-transform:uppercase;margin-bottom:14px">Instituciones</div>
+          <!-- Duoc UC -->
+          <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:14px">
+            <div style="width:36px;height:36px;border-radius:8px;background:rgba(147,204,255,.1);border:1px solid rgba(147,204,255,.2);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0">🎓</div>
+            <div>
+              <div style="font-size:.92rem;font-weight:700;color:#dfe2f3;letter-spacing:-.01em">Duoc UC</div>
+              <div style="font-size:.78rem;color:#93ccff;margin-top:1px">Último año · Ing. Informática</div>
+            </div>
+          </div>
+          <!-- Falabella -->
+          <div style="display:flex;align-items:flex-start;gap:12px">
+            <div style="width:36px;height:36px;border-radius:8px;background:rgba(77,255,178,.08);border:1px solid rgba(77,255,178,.2);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0">🏢</div>
+            <div>
+              <div style="display:flex;align-items:center;gap:8px">
+                <div style="font-size:.92rem;font-weight:700;color:#dfe2f3;letter-spacing:-.01em">Falabella Inmobiliario</div>
+                <span style="font-size:.55rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:2px 7px;border-radius:10px;background:rgba(77,255,178,.12);color:#4dffb2;border:1px solid rgba(77,255,178,.25)">En práctica</span>
+              </div>
+              <div style="font-size:.78rem;color:#4dffb2;margin-top:1px">Área de Mejora Continua</div>
+              <div style="font-size:.74rem;color:#bec7d3;margin-top:2px;font-weight:300">Actualmente cursando</div>
+            </div>
+          </div>
+        </div>
+        <div id="about-rows"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ SKILLS ═══════════════════ -->
+<section id="skills" style="padding:120px 32px;background:rgba(10,14,26,.55)">
+  <div class="reveal" style="max-width:1200px;margin:0 auto">
+    <p class="s-label" style="margin-bottom:16px;text-align:center">// Habilidades</p>
+    <h2 style="font-size:clamp(2rem,5vw,3.5rem);font-weight:900;letter-spacing:-.04em;text-align:center;margin-bottom:64px">
+      Stack <span class="text-glow">Tecnológico</span>
+    </h2>
+    <div class="skills-grid" id="skills-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════ PROJECTS ═══════════════════ -->
+<section id="projects" style="padding:120px 32px">
+  <div class="reveal" style="max-width:1200px;margin:0 auto">
+    <p class="s-label" style="margin-bottom:16px">// Proyectos</p>
+    <h2 style="font-size:clamp(2rem,5vw,3.5rem);font-weight:900;letter-spacing:-.04em;margin-bottom:64px">
+      Mi <span class="text-glow">Trabajo</span>
+    </h2>
+    <div class="projects-grid" id="projects-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════ CONTACT ═══════════════════ -->
+<section id="contact" style="padding:120px 32px;background:rgba(10,14,26,.55)">
+  <div class="reveal" style="max-width:1000px;margin:0 auto;text-align:center">
+    <p class="s-label" style="margin-bottom:16px">// Contacto</p>
+    <h2 style="font-size:clamp(2.2rem,6vw,4.5rem);font-weight:900;letter-spacing:-.04em;margin-bottom:20px">
+      Hablemos de tu <span class="text-glow">Proyecto</span>
+    </h2>
+    <p style="color:#bec7d3;font-size:1.05rem;max-width:520px;margin:0 auto 56px;line-height:1.75;font-weight:300">
+      ¿Necesitas un especialista en análisis de datos y BI? Estoy disponible para proyectos y colaboraciones.
+    </p>
+    <div class="contact-grid" id="contact-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:48px"></div>
+    <a href="mailto:daniel.isaac.dev@gmail.com" class="btn-p" style="font-size:.85rem;padding:16px 48px">Enviar Mensaje ✉️</a>
+  </div>
+</section>
+
+<!-- ═══════════════════ FOOTER ═══════════════════ -->
+<footer style="padding:32px;border-top:1px solid rgba(147,204,255,.08)">
+  <div style="max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+    <span style="font-weight:800;font-size:.85rem;letter-spacing:-.02em">
+      <span style="color:#dfe2f3">daniel</span><span style="color:#93ccff">isaac</span><span style="color:#4dffb2">.dev</span>
+    </span>
+    <span style="font-size:.7rem;color:#bec7d3;opacity:.4">© 2026 · Santiago, Chile</span>
+    <div style="display:flex;gap:20px">
+      <a href="https://github.com/danielisaacdev" target="_blank" style="font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#bec7d3;text-decoration:none;transition:color .2s" onmouseover="this.style.color='#93ccff'" onmouseout="this.style.color='#bec7d3'">GitHub</a>
+      <a href="https://www.linkedin.com/in/danielisaacdev/" target="_blank" style="font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#bec7d3;text-decoration:none;transition:color .2s" onmouseover="this.style.color='#93ccff'" onmouseout="this.style.color='#bec7d3'">LinkedIn</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ─── DATA ───
+const PROJECTS = [
+  {name:'Dashboard Power BI',desc:'Visualización estratégica de KPIs comerciales con dashboards interactivos y DAX avanzado para toma de decisiones.',tags:['Power BI','DAX','BI'],color:'#075985',accent:'#0ea5e9'},
+  {name:'Análisis Python',desc:'EDA y limpieza de datos masivos con pandas y NumPy para extraer insights accionables y patrones ocultos.',tags:['Python','Pandas','NumPy'],color:'#0f766e',accent:'#14b8a6'},
+  {name:'OnStore — Astro',desc:'E-commerce moderno con Astro.js enfocado en rendimiento extremo y arquitectura de componentes limpia.',tags:['Astro','Tailwind','UX/UI'],color:'#1d4ed8',accent:'#60a5fa'},
+  {name:'FastAPI CRM',desc:'API robusta para gestión de relaciones con clientes, implementada con FastAPI para baja latencia y alta concurrencia.',tags:['Python','FastAPI','REST'],color:'#6d28d9',accent:'#a78bfa'},
+  {name:'Web Scraping Pipeline',desc:'Automatización de recolección de datos a gran escala con Selenium y almacenamiento en bases de datos relacionales.',tags:['Python','Selenium','Data Mining'],color:'#0c4a6e',accent:'#2dd4bf'},
+];
+const SKILLS = [
+  {icon:'🐍',label:'Python',dur:'4s',delay:'0s'},
+  {icon:'📊',label:'Power BI',dur:'5s',delay:'.5s'},
+  {icon:'🗄️',label:'SQL Server',dur:'3.8s',delay:'1s'},
+  {icon:'🔶',label:'Oracle SQL',dur:'4.5s',delay:'.3s'},
+  {icon:'⎇',label:'Git',dur:'4.2s',delay:'.8s'},
+  {icon:'⛏️',label:'Data Mining',dur:'3.5s',delay:'1.2s'},
+  {icon:'🐼',label:'Pandas',dur:'4.8s',delay:'.2s'},
+  {icon:'🤖',label:'ML',dur:'5.2s',delay:'.7s'},
+];
+const ABOUT_ROWS=[
+  {l:'Especialización',v:'Data Science'},
+  {l:'Ubicación',v:'Santiago, Chile'},
+  {l:'Email',v:'daniel.isaac.dev@gmail.com'},
+  {l:'Estado',v:'🟢 Disponible para proyectos'},
+];
+const CONTACTS=[
+  {icon:'✉️',label:'Email',val:'daniel.isaac.dev@gmail.com',href:'mailto:daniel.isaac.dev@gmail.com',color:'#93ccff'},
+  {icon:'💼',label:'LinkedIn',val:'danielisaacdev',href:'https://www.linkedin.com/in/danielisaacdev/',color:'#60a5fa'},
+  {icon:'⚡',label:'GitHub',val:'danielisaacdev',href:'https://github.com/danielisaacdev',color:'#4dffb2'},
+  {icon:'📱',label:'WhatsApp',val:'+56 9 9214 9141',href:'https://wa.me/56992149141',color:'#a78bfa'},
+];
+const TICKER_ITEMS=['Data Analysis','Power BI','Python','SQL','Machine Learning','Business Intelligence','Data Mining','FastAPI','Web Scraping','EDA'];
+
+// ─── CURSOR GLOW ───
+const cur=document.getElementById('cursor');
+document.addEventListener('mousemove',e=>{cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px'});
+
+// ─── SMOOTH SCROLL ───
+function goto(id){document.getElementById(id)?.scrollIntoView({behavior:'smooth'})}
+document.querySelectorAll('[data-target]').forEach(btn=>{
+  btn.addEventListener('click',()=>goto(btn.dataset.target));
+});
+document.getElementById('cta-projects').addEventListener('click',e=>{e.preventDefault();goto('projects')});
+document.getElementById('cta-contact').addEventListener('click',e=>{e.preventDefault();goto('contact')});
+
+// ─── NAVBAR ACTIVE ───
+const navLinks=document.querySelectorAll('.nav-link');
+const sections=['home','about','skills','projects','contact'];
+window.addEventListener('scroll',()=>{
+  const sy=window.scrollY+90;
+  let active='home';
+  const atBottom=window.scrollY+window.innerHeight>=document.body.scrollHeight-60;
+  if(atBottom){active='contact';}
+  else{sections.forEach(id=>{const el=document.getElementById(id);if(el&&el.offsetTop<=sy)active=id});}
+  navLinks.forEach(l=>{l.classList.toggle('active',l.dataset.target===active)});
+  const nb=document.getElementById('navbar');
+  nb.style.boxShadow=window.scrollY>30?'0 8px 40px rgba(0,0,0,.5)':'none';
+});
+
+// ─── MOBILE MENU ───
+const hbg=document.getElementById('hamburger');
+const mm=document.getElementById('mobile-menu');
+hbg.addEventListener('click',()=>{
+  const open=mm.style.display==='flex';
+  mm.style.display=open?'none':'flex';
+  hbg.textContent=open?'☰':'✕';
+});
+// hide hamburger on desktop
+function checkMobile(){
+  hbg.style.display=window.innerWidth<768?'block':'none';
+}
+checkMobile();window.addEventListener('resize',checkMobile);
+
+// ─── TICKER ───
+const tickerEl=document.getElementById('ticker');
+const all=[...TICKER_ITEMS,...TICKER_ITEMS];
+tickerEl.innerHTML=all.map((t,i)=>`<span style="padding:0 32px;font-size:.68rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:${i%2===0?'#93ccff':'#4dffb2'};white-space:nowrap;opacity:.7">${t} <span style="opacity:.3;margin-left:8px">◆</span></span>`).join('');
+
+// ─── ABOUT ROWS ───
+document.getElementById('about-rows').innerHTML=ABOUT_ROWS.map(r=>`
+<div style="display:flex;justify-content:space-between;align-items:flex-start;padding:10px 0;border-bottom:1px solid rgba(147,204,255,.05);gap:12px">
+  <span style="font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#93ccff;flex-shrink:0">${r.l}</span>
+  <span style="font-size:.82rem;color:#bec7d3;text-align:right">${r.v}</span>
+</div>`).join('');
+
+// ─── SKILLS ───
+const sg=document.getElementById('skills-grid');
+SKILLS.forEach(s=>{
+  const d=document.createElement('div');
+  d.className='sk-card';
+  d.style.animation=`floatSkill ${s.dur} ease-in-out infinite ${s.delay}`;
+  d.innerHTML=`<div style="font-size:2rem;margin-bottom:10px">${s.icon}</div><div style="font-size:.78rem;font-weight:700;color:#dfe2f3;letter-spacing:-.01em">${s.label}</div>`;
+  sg.appendChild(d);
+});
+
+// ─── PROJECTS ───
+const pg=document.getElementById('projects-grid');
+PROJECTS.forEach((p,i)=>{
+  const wrap=document.createElement('div');
+  wrap.className='tilt-wrap';
+  wrap.innerHTML=`
+  <div class="tilt-card" style="background:linear-gradient(135deg,${p.color}cc,${p.accent}22);border:1px solid ${p.accent}33;border-radius:20px;padding:32px;min-height:260px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden">
+    <div class="tilt-shine"></div>
+    <div style="position:absolute;top:-10px;right:16px;font-size:5.5rem;font-weight:900;color:rgba(255,255,255,.04);line-height:1;user-select:none;pointer-events:none">${String(i+1).padStart(2,'0')}</div>
+    <div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px">${p.tags.map(t=>`<span style="font-size:.58rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:4px 8px;border-radius:4px;background:rgba(255,255,255,.08);color:${p.accent}">${t}</span>`).join('')}</div>
+      <h3 style="font-size:1.05rem;font-weight:800;color:#fff;margin-bottom:10px;letter-spacing:-.02em">${p.name}</h3>
+      <p style="font-size:.83rem;color:rgba(255,255,255,.62);line-height:1.65;font-weight:300">${p.desc}</p>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:20px;padding-top:16px;border-top:1px solid ${p.accent}22">
+      <a href="https://github.com/danielisaacdev" target="_blank" style="font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:${p.accent};text-decoration:none">Ver GitHub →</a>
+      <div style="width:32px;height:32px;border-radius:50%;background:${p.accent}22;border:1px solid ${p.accent}44;display:flex;align-items:center;justify-content:center;font-size:.9rem">↗</div>
+    </div>
+  </div>`;
+  pg.appendChild(wrap);
+});
+
+// ─── CONTACT ───
+const cg=document.getElementById('contact-grid');
+CONTACTS.forEach(c=>{
+  const a=document.createElement('a');
+  a.href=c.href;
+  if(c.href.startsWith('http'))a.target='_blank';
+  a.className='holo-card';
+  a.style.cssText='border-radius:16px;padding:28px 20px;text-decoration:none;display:block';
+  a.innerHTML=`<div style="font-size:1.9rem;margin-bottom:12px">${c.icon}</div><div style="font-size:.6rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:${c.color};margin-bottom:6px">${c.label}</div><div style="font-size:.8rem;color:#bec7d3;word-break:break-word">${c.val}</div>`;
+  cg.appendChild(a);
+});
+
+// ─── REVEAL OBSERVER ───
+const revObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')});
+},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>revObs.observe(el));
+
+// ─── TILT EFFECT ───
+function attachTilt(card){
+  card.addEventListener('mousemove',e=>{
+    const r=card.getBoundingClientRect();
+    const x=(e.clientX-r.left)/r.width;
+    const y=(e.clientY-r.top)/r.height;
+    card.style.transform=`rotateX(${(y-.5)*-16}deg) rotateY(${(x-.5)*16}deg) scale3d(1.02,1.02,1.02)`;
+    card.style.setProperty('--px',x*100+'%');
+    card.style.setProperty('--py',y*100+'%');
+    const s=card.querySelector('.tilt-shine');
+    if(s)s.style.opacity='1';
+  });
+  card.addEventListener('mouseleave',()=>{
+    card.style.transform='rotateX(0) rotateY(0) scale3d(1,1,1)';
+    const s=card.querySelector('.tilt-shine');
+    if(s)s.style.opacity='0';
+  });
+}
+document.querySelectorAll('.tilt-card').forEach(attachTilt);
+
+// ─── TYPEWRITER ───
+const tw=document.getElementById('typewriter');
+const cb=document.getElementById('cursor-bar');
+const phrases=['Data Analyst','BI Developer','Python Dev','SQL Expert'];
+let pi=0,ci=0,del=false;
+setInterval(()=>cb.style.opacity=cb.style.opacity==='0'?'1':'0',500);
+function tick(){
+  const p=phrases[pi];
+  if(!del){ci++;tw.textContent=p.slice(0,ci);if(ci===p.length){del=true;setTimeout(tick,1800);return}}
+  else{ci--;tw.textContent=p.slice(0,ci);if(ci===0){del=false;pi=(pi+1)%phrases.length}}
+  setTimeout(tick,del?60:90);
+}
+setTimeout(tick,600);
+
+// ─── PARTICLE CANVAS ───
+(function(){
+  const canvas=document.getElementById('hero-canvas');
+  const ctx=canvas.getContext('2d');
+  let W,H,particles=[];
+  const COLORS=['#93ccff','#4dffb2','#e4b5ff','#ffffff'];
+  const mouse={x:-9999,y:-9999};
+
+  function resize(){
+    W=canvas.width=canvas.offsetWidth;
+    H=canvas.height=canvas.offsetHeight;
+  }
+  function init(){
+    particles=Array.from({length:110},()=>({
+      x:Math.random()*W,y:Math.random()*H,z:Math.random()*800+100,
+      vx:(Math.random()-.5)*.35,vy:(Math.random()-.5)*.35,vz:(Math.random()-.5)*.7,
+      size:Math.random()*2.2+.4,
+      color:COLORS[Math.floor(Math.random()*COLORS.length)],
+      alpha:Math.random()*.65+.2
+    }));
+  }
+  window.addEventListener('resize',()=>{resize();init()});
+  canvas.addEventListener('mousemove',e=>{
+    const r=canvas.getBoundingClientRect();
+    mouse.x=e.clientX-r.left;mouse.y=e.clientY-r.top;
+  });
+  canvas.addEventListener('mouseleave',()=>{mouse.x=-9999;mouse.y=-9999});
+  resize();init();
+
+  const FL=500;
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    particles.forEach((p,i)=>{
+      const sc=FL/(FL+p.z);
+      const px=(p.x-W/2)*sc+W/2;
+      const py=(p.y-H/2)*sc+H/2;
+      const r=p.size*sc;
+
+      // mouse repulsion
+      const dx=px-mouse.x,dy=py-mouse.y;
+      const dist=Math.sqrt(dx*dx+dy*dy);
+      if(dist<130){p.vx+=dx*.00025;p.vy+=dy*.00025}
+
+      // draw particle
+      ctx.save();
+      ctx.globalAlpha=p.alpha*sc;
+      ctx.shadowColor=p.color;ctx.shadowBlur=r*4;
+      ctx.fillStyle=p.color;
+      ctx.beginPath();ctx.arc(px,py,Math.max(r,.3),0,Math.PI*2);ctx.fill();
+      ctx.restore();
+
+      // connect lines
+      for(let j=i+1;j<Math.min(i+6,particles.length);j++){
+        const q=particles[j];
+        const qs=FL/(FL+q.z);
+        const qx=(q.x-W/2)*qs+W/2,qy=(q.y-H/2)*qs+H/2;
+        const d=Math.sqrt((px-qx)**2+(py-qy)**2);
+        if(d<90){
+          ctx.save();ctx.globalAlpha=(1-d/90)*.1;
+          ctx.strokeStyle='#93ccff';ctx.lineWidth=.4;
+          ctx.beginPath();ctx.moveTo(px,py);ctx.lineTo(qx,qy);ctx.stroke();
+          ctx.restore();
+        }
+      }
+      // update
+      p.x+=p.vx;p.y+=p.vy;p.z+=p.vz;
+      p.vx*=.992;p.vy*=.992;
+      if(p.x<0)p.x=W;if(p.x>W)p.x=0;
+      if(p.y<0)p.y=H;if(p.y>H)p.y=0;
+      if(p.z<0)p.z=850;if(p.z>900)p.z=0;
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+</script>
+</body>
+</html>
