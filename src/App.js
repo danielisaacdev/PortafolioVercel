@@ -69,20 +69,20 @@ function App() {
     gsap.ticker.add(tick);
     gsap.ticker.lagSmoothing(0);
 
-    /* Spine wave — vertebrae scale in/out like a spinning column */
+    /* Spine wave — vertebrae spin on their Y axis as you scroll */
     ScrollTrigger.create({
       start: 0,
       end: "max",
       onUpdate: (self) => {
         vertebraeRef.current.forEach((v, i) => {
           if (!v) return;
-          const angle =
-            self.progress * Math.PI * 10 +
-            (i / VERTEBRA_COUNT) * Math.PI * 2;
-          const cos = Math.cos(angle);
-          const scale = Math.abs(cos) * 0.82 + 0.18;
-          v.style.transform = `scaleX(${scale})`;
-          v.style.opacity = (Math.abs(cos) * 0.55 + 0.15).toString();
+          /* Staggered phase offset → creates a traveling wave down the column */
+          const phase = (i / VERTEBRA_COUNT) * 360;        // 0..360 spread across the column
+          const totalDeg = self.progress * 1440 + phase;   // 4 full spins over full scroll
+          v.style.transform = `rotateY(${totalDeg}deg)`;
+          /* Brightness peaks when facing front (0°,360°) or back (180°) */
+          const cos = Math.cos((totalDeg * Math.PI) / 180);
+          v.style.opacity = (Math.abs(cos) * 0.6 + 0.2).toString();
         });
       },
     });

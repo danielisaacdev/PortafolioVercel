@@ -74,19 +74,35 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
+  perspective: 120px;
+  perspective-origin: center center;
 }
 
 .vertebra {
-  width: 20px;
-  height: 3px;
-  background: var(--purple);
+  width: 22px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--purple-dark), var(--purple-bright), var(--purple-dark));
   border-radius: 2px;
   box-shadow:
-    0 0 6px var(--purple-glow),
-    0 0 14px var(--purple-glow);
+    0 0 8px var(--purple-glow),
+    0 0 18px var(--purple-glow);
   will-change: transform, opacity;
   transform-origin: center center;
+  transform-style: preserve-3d;
   flex-shrink: 0;
+  position: relative;
+}
+
+/* back face — slightly different hue for depth */
+.vertebra::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #6d28d9, #c084fc, #6d28d9);
+  transform: rotateY(180deg) scaleX(0.85);
+  backface-visibility: hidden;
+  opacity: 0.75;
 }
 
 /* ── Text ── */
